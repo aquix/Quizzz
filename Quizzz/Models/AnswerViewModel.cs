@@ -5,6 +5,7 @@ using System.Web;
 
 namespace Quizzz.Models
 {
+    [Serializable]
     public class AnswerViewModel
     {
         public bool IsCorrect { get; set; }

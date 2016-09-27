@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Quizzz.Models
+{
+    public class FormPostData
+    {
+        public NewQuizzViewModel Quizz { get; set; }
+        public string OutputType { get; set; }
+    }
+}
