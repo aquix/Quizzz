@@ -8,6 +8,6 @@ namespace Quizzz.Models
     public class FormPostData
     {
         public QuizzViewModel Quizz { get; set; }
-        public string OutputType { get; set; }
+        public OutputType OutputType { get; set; }
     }
 }

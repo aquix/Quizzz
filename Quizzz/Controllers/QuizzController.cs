@@ -26,19 +26,14 @@ namespace Quizzz.Controllers
                 Formatting = Formatting.Indented
             });
 
-            if (postData.OutputType == "json") {
+            if (postData.OutputType == OutputType.Json) {
                 return Content(jsonResult, "application/json");
-            } else if (postData.OutputType == "xml") {
+            } else if (postData.OutputType == OutputType.Xml) {
                 var xmlNode = JsonConvert.DeserializeXmlNode(jsonResult, "quizz");
                 return Content(xmlNode.InnerXml, "text/xml");
             } else {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
-        }
-
-        private bool IsCorrect(QuizzViewModel quizz)
-        {
-            return true;
         }
     }
 }

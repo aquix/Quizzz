@@ -3,17 +3,26 @@
 }
 
 @section Scripts {
+    <script src="~/Client/lib/knockout-validation/dist/knockout.validation.js"></script>
     <script src="~/Client/scripts/main.js"></script>
 }
 
 @section Styles {
+    <link href="~/Client/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
     <link href="~/Client/styles/main.css" rel="stylesheet" />
 }
 
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
         <h2>Test creator</h2>
-
+        <div data-bind="visible: errors().length !== 0" class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Check entered data</h3>
+                <div class="panel-body" data-bind="foreach: errors">
+                    <p data-bind="text: $data"></p>
+                </div>
+            </div>
+        </div>
         <form>
             <div class="form-group">
                 <label for="Author">Author:</label>

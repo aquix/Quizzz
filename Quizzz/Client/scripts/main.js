@@ -5,6 +5,11 @@
     self.outputType = ko.observable('json');
 
     self.generateQuizz = function () {
+        var isValid = validate(self);
+        if (!isValid) {
+            return;
+        }
+
         // Assign ids
         self.quizz().questions().forEach(function (question, i) {
             question.id = i + 1;
@@ -13,6 +18,8 @@
         var jsonData = ko.toJSON(self);
         location = '/generate?jsonData=' + jsonData;
     }
+
+    self.errors = ko.observableArray();
 }
 
 function QuizzViewModel() {
@@ -65,6 +72,66 @@ function init() {
     var mainViewModel = new MainViewModel();
     mainViewModel.quizz(new QuizzViewModel());
     ko.applyBindings(mainViewModel);
+}
+
+function validate(mainViewModel) {
+    function addError(err) {
+        mainViewModel.errors.push(err);
+    }
+
+    mainViewModel.errors([]);
+    var quizz = mainViewModel.quizz();
+
+    if (quizz.author() === '') {
+        addError('Author field is required');
+    }
+    if (quizz.category() === '') {
+        addError('Category field is required');
+    }
+    if (quizz.questions().length === 0) {
+        addError('Quizz must contain at least one question');
+    }
+    quizz.questions().forEach(function (question, index) {
+        if (question.questionBody() === '') {
+            addError('Question ' + (index + 1) + ': body is empty');
+        }
+
+        if (question.answers().length < 2) {
+            addError('Question ' + (index + 1) + ' must have at least two answers');
+        }
+
+        var areAllAnswersIncorrect = true;
+        var areAllAnswersCorrect = true;
+        var isAnyAnswerEmpty = false;
+
+        question.answers().forEach(function (answer) {
+            if (answer.isCorrect()) {
+                areAllAnswersIncorrect = false;
+            } else {
+                areAllAnswersCorrect = false;
+            }
+
+            if (answer.answerString() === '') {
+                isAnyAnswerEmpty = true;
+            }
+        });
+
+        if (areAllAnswersCorrect) {
+            addError('Question ' + (index + 1) + ': all answers can\'t be correct');
+        } else if (areAllAnswersIncorrect) {
+            addError('Question ' + (index + 1) + ': at least one answer should be correct');
+        }
+
+        if (isAnyAnswerEmpty) {
+            addError('Question ' + (index + 1) + ': all answers shouldn\'t be empty strings');
+        }
+    });
+
+    if (mainViewModel.errors().length === 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 init();
