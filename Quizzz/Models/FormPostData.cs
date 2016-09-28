@@ -7,7 +7,7 @@ namespace Quizzz.Models
 {
     public class FormPostData
     {
-        public NewQuizzViewModel Quizz { get; set; }
+        public QuizzViewModel Quizz { get; set; }
         public string OutputType { get; set; }
     }
 }

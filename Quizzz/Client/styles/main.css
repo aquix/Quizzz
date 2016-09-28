@@ -2,6 +2,15 @@
     margin-top: 50px;
 }
 
+.question-body-area {
+  height: 200px !important;
+}
+
+.add-answer-btn {
+  float: right;
+  margin-right: 30px;
+}
+
 .checkbox {
   padding-left: 20px;
 }

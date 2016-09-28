@@ -1,6 +1,4 @@
-﻿@model Quizzz.Models.NewQuizzViewModel
-
-@{
+﻿@{
     ViewBag.Title = "Index";
 }
 
@@ -13,7 +11,7 @@
 }
 
 <div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
+    <div class="col-sm-8 col-sm-offset-2">
         <h2>Test creator</h2>
 
         <form>
@@ -22,34 +20,48 @@
                 <input data-bind="value: quizz().author" type="text" class="form-control" id="Author">
             </div>
             <div class="form-group">
-                <label for="Question">Question:</label>
-                <textarea data-bind="value: quizz().question" class="form-control" id="Question"></textarea>
+                <label for="Category">Category:</label>
+                <input data-bind="value: quizz().category" type="text" class="form-control" id="Category">
             </div>
-            <label for="Question">Answers:</label>
-            <div data-bind="foreach: quizz().answers">
-                <div class="form-inline form-group">
+            <div data-bind="foreach: quizz().questions">
+                <div class="question">
                     <div class="form-group">
-                        <div class="input-group">
-                            <input data-bind="value: answerString" type="text" class="form-control">
-                            <span class="input-group-addon">
-                                <input data-bind="checked: isCorrect" type="checkbox">
-                            </span>
+                        <label for="Question">Question <span data-bind="text: ($index() + 1)"></span>:</label>
+                        <button data-bind="click: $root.quizz().removeQuestion" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="form-group col-sm-6">
+                            <textarea data-bind="value: questionBody" class="question-body-area form-control" id="Question"></textarea>
+                        </div>
+                        <div data-bind="foreach: answers" class="form-group col-sm-6">
+                            <div class="form-inline">
+                                <div class="input-group">
+                                    <input data-bind="value: answerString" type="text" class="form-control">
+                                    <span class="input-group-addon">
+                                        <input data-bind="checked: isCorrect" type="checkbox">
+                                    </span>
+                                </div>
+                                <button data-bind="click: $parent.removeAnswer" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="form-group add-answer-btn">
+                            <button data-bind="click: addAnswer" class="btn btn-success">Add answer</button>
                         </div>
                     </div>
-                    <button data-bind="click: $parent.removeAnswer" class="btn btn-danger">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
                 </div>
             </div>
             <div class="form-group">
-                <button data-bind="click: addAnswer" class="btn btn-success">Add answer</button>
+                <button data-bind="click: quizz().addQuestion" class="btn btn-success">Add question</button>
             </div>
             <div class="form-group">
                 <div class="form-inline">
-                    <div class="form-group">
-                        <label for="Category">Category:</label>
-                        <input data-bind="value: quizz().category" type="text" class="form-control" id="Category">
-                    </div>
+                    <button data-bind="click: generateQuizz" class="btn btn-primary">Generate</button>
                     <div class="form-group">
                         <label class="radio-inline">
                             <input data-bind="checked: outputType" type="radio" name="type-radio" value="json">JSON
@@ -58,7 +70,6 @@
                             <input data-bind="checked: outputType" type="radio" name="type-radio" value="xml">XML
                         </label>
                     </div>
-                    <button data-bind="click: generateQuizz" class="btn btn-primary">Generate</button>
                 </div>
             </div>
         </form>

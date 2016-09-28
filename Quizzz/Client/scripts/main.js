@@ -5,26 +5,53 @@
     self.outputType = ko.observable('json');
 
     self.generateQuizz = function () {
+        // Assign ids
+        self.quizz().questions().forEach(function (question, i) {
+            question.id = i + 1;
+        });
+
         var jsonData = ko.toJSON(self);
         location = '/generate?jsonData=' + jsonData;
     }
-
-    self.addAnswer = function () {
-        self.quizz().answers.push(new AnswerViewModel());
-    }
-
-    self.removeAnswer = function (answer) {
-        self.quizz().answers.remove(answer);
-    }
 }
 
-function NewQuizzViewModel() {
+function QuizzViewModel() {
     var self = this;
 
     self.author = ko.observable('');
-    self.question = ko.observable('');
-    self.answers = ko.observableArray([]);
     self.category = ko.observable('');
+    self.questions = ko.observableArray([]);
+
+    // init
+    self.questions.push(new QuestionViewModel());
+
+    self.addQuestion = function () {
+        self.questions.push(new QuestionViewModel());
+    }
+
+    self.removeQuestion = function (question) {
+        self.questions.remove(question);
+    }
+}
+
+function QuestionViewModel() {
+    var self = this;
+
+    self.id = 0;
+    self.questionBody = ko.observable('');
+    self.answers = ko.observableArray([]);
+
+    // init
+    self.answers.push(new AnswerViewModel());
+    self.answers.push(new AnswerViewModel());
+
+    self.addAnswer = function () {
+        self.answers.push(new AnswerViewModel());
+    }
+
+    self.removeAnswer = function (answer) {
+        self.answers.remove(answer);
+    }
 }
 
 function AnswerViewModel() {
@@ -36,8 +63,7 @@ function AnswerViewModel() {
 
 function init() {
     var mainViewModel = new MainViewModel();
-    mainViewModel.quizz(new NewQuizzViewModel());
-    mainViewModel.quizz().answers.push(new AnswerViewModel());
+    mainViewModel.quizz(new QuizzViewModel());
     ko.applyBindings(mainViewModel);
 }
 

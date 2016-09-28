@@ -107,7 +107,8 @@
     </Compile>
     <Compile Include="Models\AnswerViewModel.cs" />
     <Compile Include="Models\FormPostData.cs" />
-    <Compile Include="Models\NewQuizzViewModel.cs" />
+    <Compile Include="Models\QuestionViewModel.cs" />
+    <Compile Include="Models\QuizzViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
