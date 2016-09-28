@@ -15,7 +15,6 @@
     "tests"
   ],
   "devDependencies": {
-    "knockout-validation": "^2.0.3",
     "awesome-bootstrap-checkbox": "^0.3.7"
   }
 }
