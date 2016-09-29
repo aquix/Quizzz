@@ -125,6 +125,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\NewQuizzViewModel.cs" />
+    <Compile Include="Util\Exceptions\InvalidParameterException.cs" />
+    <Compile Include="Util\Exceptions\InvalidParameterExceptionFilterAttribute.cs" />
     <Compile Include="Util\OutputType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -153,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Util\Exceptions\" />
     <Folder Include="Views\Quizz\" />
   </ItemGroup>
   <ItemGroup>

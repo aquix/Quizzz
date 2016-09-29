@@ -15,7 +15,12 @@
             question.id = i + 1;
         });
 
-        var jsonData = ko.toJSON(self);
+        var jsonData = ko.toJSON(self, function (key, value) {
+            if (key === "errors") {
+                return undefined;
+            }
+            return value;
+        });
 
         var headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -25,9 +30,12 @@
             body: jsonData
         })
         .then(function (response) {
-            response.text()
-            .then(function (text) {
-                document.querySelector('html').textContent = JSON.parse(text);
+            response.text().then(function (text) {
+                if (response.ok === true) {
+                    document.querySelector('html').textContent = JSON.parse(text);
+                } else {
+                    document.querySelector('html').textContent = text;
+                }
             });
         });
     }
