@@ -1,20 +1,9 @@
 {
-  "name": "Quizzz",
-  "description": "",
-  "main": "index.js",
-  "authors": [
-    "Uladzislau Klimiankou <vlad.klimenkoff97@gmail.com>"
-  ],
-  "license": "ISC",
-  "homepage": "https://github.com/aquix/Quizzz",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "devDependencies": {
-    "awesome-bootstrap-checkbox": "^0.3.7"
+  "name": "quizzz",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "jquery": "2.2.3",
+    "awesome-bootstrap-checkbox": "latest"
   }
 }
