@@ -3,6 +3,7 @@
 
 # Custom
 .vscode/
+*/wwwroot/lib/
 
 # ASP.NET MVC Data
 App_Data/
