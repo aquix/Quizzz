@@ -16,7 +16,7 @@ namespace Quizzz.Controllers
     {
         [Route("generate")]
         public ActionResult GenerateQuizz(string jsonData) {
-            var postData = JsonConvert.DeserializeObject<FormPostData>(jsonData, new JsonSerializerSettings {
+            var postData = JsonConvert.DeserializeObject<NewQuizzViewModel>(jsonData, new JsonSerializerSettings {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             });
 
