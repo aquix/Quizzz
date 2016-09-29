@@ -16,7 +16,20 @@
         });
 
         var jsonData = ko.toJSON(self);
-        location = '/generate?jsonData=' + jsonData;
+
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        fetch('/api/generate', {
+            method: 'post',
+            headers: headers,
+            body: jsonData
+        })
+        .then(function (response) {
+            response.text()
+            .then(function (text) {
+                document.querySelector('html').textContent = JSON.parse(text);
+            });
+        });
     }
 
     self.errors = ko.observableArray();

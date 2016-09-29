@@ -1,38 +1,30 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Quizzz.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using System.Xml.Serialization;
+using Quizzz.Util;
+using System.Web.Http;
 
 namespace Quizzz.Controllers
 {
-    public class QuizzController : Controller
+    public class QuizzController : ApiController
     {
-        [Route("generate")]
-        public ActionResult GenerateQuizz(string jsonData) {
-            var postData = JsonConvert.DeserializeObject<NewQuizzViewModel>(jsonData, new JsonSerializerSettings {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            });
+        [HttpPost]
+        [Route("api/generate")]
+        public string GenerateQuizz([FromBody]NewQuizzViewModel newQuizzData) {
 
-            var jsonResult = JsonConvert.SerializeObject(postData.Quizz, new JsonSerializerSettings
+            var jsonResult = JsonConvert.SerializeObject(newQuizzData.Quizz, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Formatting.Indented
             });
 
-            if (postData.OutputType == OutputType.Json) {
-                return Content(jsonResult, "application/json");
-            } else if (postData.OutputType == OutputType.Xml) {
+            if (newQuizzData.OutputType == OutputType.Json) {
+                return jsonResult;
+            } else if (newQuizzData.OutputType == OutputType.Xml) {
                 var xmlNode = JsonConvert.DeserializeXmlNode(jsonResult, "quizz");
-                return Content(xmlNode.InnerXml, "text/xml");
+                return xmlNode.InnerXml;
             } else {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                return "error";
             }
         }
     }
