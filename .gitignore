@@ -3,6 +3,7 @@
 
 # Custom
 Quizzz/Client/lib
+Quizzz/wwwroot/lib
 /typings/
 
 # ASP.NET MVC Data
