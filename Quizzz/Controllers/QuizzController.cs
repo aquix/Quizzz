@@ -7,6 +7,7 @@ using Quizzz.Util.Exceptions;
 
 namespace Quizzz.Controllers
 {
+    [InvalidParameterExceptionFilter]
     public class QuizzController : Controller
     {
         [HttpPost]

@@ -31,14 +31,10 @@ function MainViewModel() {
         })
         .then(function (response) {
             response.text().then(function (text) {
-                if (response.ok === true) {
-                    document.querySelector('html').textContent = JSON.parse(text);
-                } else {
-                    document.querySelector('html').textContent = text;
-                }
+                document.querySelector('html').textContent = text;
             });
         });
-    }
+    };
 
     self.errors = ko.observableArray();
 }
@@ -55,11 +51,11 @@ function QuizzViewModel() {
 
     self.addQuestion = function () {
         self.questions.push(new QuestionViewModel());
-    }
+    };
 
     self.removeQuestion = function (question) {
         self.questions.remove(question);
-    }
+    };
 }
 
 function QuestionViewModel() {
@@ -75,11 +71,11 @@ function QuestionViewModel() {
 
     self.addAnswer = function () {
         self.answers.push(new AnswerViewModel());
-    }
+    };
 
     self.removeAnswer = function (answer) {
         self.answers.remove(answer);
-    }
+    };
 }
 
 function AnswerViewModel() {
