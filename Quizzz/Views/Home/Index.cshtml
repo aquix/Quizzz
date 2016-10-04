@@ -1,14 +1,9 @@
-﻿@{
+@{
     ViewBag.Title = "Index";
 }
 
-@section Scripts {
-    <script src="~/Client/scripts/main.js"></script>
-}
-
-@section Styles {
-    <link href="~/Client/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
-    <link href="~/Client/styles/main.css" rel="stylesheet" />
+@section styles {
+    <link href="~/lib/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet" />
 }
 
 <div class="row">
@@ -76,9 +71,6 @@
                         </label>
                         <label class="radio-inline">
                             <input data-bind="checked: outputType" type="radio" name="type-radio" value="xml">XML
-                        </label>
-                        <label class="radio-inline">
-                            <input data-bind="checked: outputType" type="radio" name="type-radio" value="error">Error
                         </label>
                     </div>
                 </div>

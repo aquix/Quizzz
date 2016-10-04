@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Quizzz.Models;
 using Quizzz.Util;
 using Quizzz.Util.Exceptions;
-using System.Web.Http;
 
 namespace Quizzz.Controllers
 {
     [InvalidParameterExceptionFilter]
-    public class QuizzController : ApiController
+    public class QuizzController : Controller
     {
         [HttpPost]
         [Route("api/generate")]
@@ -27,8 +27,8 @@ namespace Quizzz.Controllers
             if (newQuizzData.OutputType == OutputType.Json) {
                 return jsonResult;
             } else if (newQuizzData.OutputType == OutputType.Xml) {
-                var xmlNode = JsonConvert.DeserializeXmlNode(jsonResult, "quizz");
-                return xmlNode.InnerXml;
+                var xmlNode = JsonConvert.DeserializeXNode(jsonResult, "quizz");
+                return xmlNode.ToString();
             } else
             {
                 throw new InvalidParameterException("Output type not found");

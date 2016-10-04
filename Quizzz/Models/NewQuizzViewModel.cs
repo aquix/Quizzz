@@ -1,4 +1,4 @@
-﻿using Quizzz.Entities;
+using Quizzz.Entities;
 using Quizzz.Util;
 
 namespace Quizzz.Models
