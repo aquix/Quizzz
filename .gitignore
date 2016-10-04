@@ -6,6 +6,7 @@
 .vscode/
 */.vs/
 */wwwroot/lib/
+*/wwwroot/dist/
 
 # ASP.NET MVC Data
 App_Data/
