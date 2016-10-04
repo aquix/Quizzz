@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-QuizzzClient.Web-67cf9610-bdaf-47af-9b73-471d12ce980b",
 
   "dependencies": {
@@ -44,7 +44,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.AspNetCore.Identity.MongoDB": "1.0.2"
+    "Microsoft.AspNetCore.Identity.MongoDB": "1.0.2",
+    "QuizzzClient.Entities": "1.0.0-*"
   },
 
   "tools": {
