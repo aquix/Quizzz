@@ -1,6 +1,7 @@
 {
     "projects":[
         "Quizzz",
-        "Quizzz.Entities"
+        "Quizzz.Entities",
+        "Quizzz.Client"
     ]
 }
