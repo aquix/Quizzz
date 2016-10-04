@@ -4,6 +4,7 @@
 # Custom
 /typings/
 .vscode/
+*/.vs/
 */wwwroot/lib/
 
 # ASP.NET MVC Data
