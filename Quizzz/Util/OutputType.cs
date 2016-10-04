@@ -2,6 +2,6 @@
 {
     public enum OutputType
     {
-        Json, Xml, Error
+        Json, Xml
     }
 }
