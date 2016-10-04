@@ -5,6 +5,7 @@
 @section scripts {
     <environment names="Development">
         <script src="~/lib/angular/angular.js"></script>
+        <script src="~/dist/index.js"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"
@@ -12,5 +13,8 @@
                 asp-fallback-test="window.angular">
         </script>
     </environment>
-    
 }
+
+<div ng-app="app">
+    <app></app>
+</div>
