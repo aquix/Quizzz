@@ -11,19 +11,20 @@ using Microsoft.Extensions.Logging;
 using QuizzzClient.Web.Models;
 using QuizzzClient.Web.Models.AccountViewModels;
 using QuizzzClient.Web.Services;
+using QuizzzClient.Entities;
 
 namespace QuizzzClient.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger _logger;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ILoggerFactory loggerFactory) {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -80,7 +81,7 @@ namespace QuizzzClient.Web.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null) {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid) {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
@@ -118,7 +119,7 @@ namespace QuizzzClient.Web.Controllers
             }
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync() {
+        private Task<User> GetCurrentUserAsync() {
             return _userManager.GetUserAsync(HttpContext.User);
         }
 

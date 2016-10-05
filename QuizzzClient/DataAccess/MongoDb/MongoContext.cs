@@ -14,7 +14,6 @@ namespace QuizzzClient.DataAccess.MongoDb
         MongoGridFS gridFS;
 
         private MongoRepository<Quizz> quizzRepo;
-        private MongoRepository<User> userRepo;
 
         public MongoContext(string connectionString) {
             var connection = new MongoUrlBuilder(connectionString);
@@ -35,15 +34,6 @@ namespace QuizzzClient.DataAccess.MongoDb
                     quizzRepo = new MongoRepository<Quizz>(database, "quizzes");
                 }
                 return quizzRepo;
-            }
-        }
-
-        public IRepository<User> Users {
-            get {
-                if (userRepo == null) {
-                    userRepo = new MongoRepository<User>(database, "users");
-                }
-                return userRepo;
             }
         }
 

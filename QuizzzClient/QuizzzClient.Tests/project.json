@@ -1,6 +1,6 @@
 ﻿{
-    "version": "1.0.0-*",
-    "testRunner": "xunit",
+  "version": "1.0.0-*",
+  "testRunner": "xunit",
   "dependencies": {
     "xunit": "2.2.0-beta2-build3300",
     "QuizzzClient.Web": "1.0.0-*",
@@ -8,14 +8,9 @@
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "DataAccess": "1.0.0-*"
   },
-    "frameworks": {
-        "netcoreapp1.0": {
-          "dependencies": {
-            "Microsoft.NETCore.App": {
-              "type": "platform",
-              "version": "1.0.0"
-            }
-          }
-        }
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": "dnxcore50"
     }
+  }
 }

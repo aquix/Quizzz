@@ -5,6 +5,7 @@ using QuizzzClient.DataAccess.Interfaces;
 using MongoDB.Driver;
 using QuizzzClient.Entities;
 using MongoDB.Bson;
+using MongoDB.Driver.Builders;
 
 namespace QuizzzClient.DataAccess.MongoDb
 {
@@ -27,13 +28,13 @@ namespace QuizzzClient.DataAccess.MongoDb
 
         public T Find(object id) {
             return collection
-                .Find(doc => doc.Id == new ObjectId(id.ToString()))
+                .Find(Builders<T>.Filter.Eq("_id", id.ToString()))
                 .FirstOrDefault();
         }
 
         public async Task<T> FindAsync(object id) {
             var searchResult = await collection
-                .FindAsync(doc => doc.Id == new ObjectId(id.ToString()));
+                .FindAsync(Builders<T>.Filter.Eq("_id", id.ToString()));
             return searchResult.FirstOrDefault();
         }
 
@@ -42,11 +43,11 @@ namespace QuizzzClient.DataAccess.MongoDb
         }
 
         public void Remove(object id) {
-            collection.DeleteOne<T>(doc => doc.Id == new ObjectId(id.ToString()));
+            collection.DeleteOne<T>(item => item.Id == id.ToString());
         }
 
         public void Update(T item) {
-            collection.ReplaceOne(doc => doc.Id == item.Id, item);
+            collection.ReplaceOne(Builders<T>.Filter.Eq("_id", item.Id.ToString()), item);
         }
 
         public IQueryable<T> Where(Func<T, bool> predicate) {

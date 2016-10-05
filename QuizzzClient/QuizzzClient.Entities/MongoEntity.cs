@@ -8,6 +8,6 @@ namespace QuizzzClient.Entities
 {
     public interface MongoEntity
     {
-        ObjectId Id { get; set; }
+        string Id { get; set; }
     }
 }

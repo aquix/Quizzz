@@ -44,8 +44,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.AspNetCore.Identity.MongoDB": "1.0.2",
-    "QuizzzClient.Entities": "1.0.0-*"
+    "DataAccess": "1.0.0-*",
+    "Microsoft.AspNetCore.Identity.MongoDB": "1.0.2"
   },
 
   "tools": {
@@ -64,7 +64,7 @@
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
-        "dotnet5.6",
+        "dnxcore50",
         "portable-net45+win8"
       ]
     }

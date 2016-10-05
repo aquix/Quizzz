@@ -18,11 +18,9 @@ namespace QuizzzClient.Tests.DataAccess
 
         [Fact]
         public void ShouldBeEmptyOnStart() {
-            var users = context.Users.GetAll();
             var quizzes = context.Quizzes.GetAll();
 
-            Assert.Equal(0, users.Count());
-            Assert.Equal(0, users.Count());
+            Assert.Equal(0, quizzes.Count());
         }
 
         [Fact]

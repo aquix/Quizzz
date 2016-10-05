@@ -8,7 +8,7 @@ namespace QuizzzClient.Entities
 {
     public class Question : MongoEntity
     {
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
         public string QuestionBody { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
     }
