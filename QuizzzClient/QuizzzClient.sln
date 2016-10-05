@@ -9,6 +9,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.Entities", "Qu
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.DataAccess", "DataAccess\QuizzzClient.DataAccess.xproj", "{10B3062A-4705-4A90-ADB6-B95D762B9D9D}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.Tests", "QuizzzClient.Tests\QuizzzClient.Tests.xproj", "{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{10B3062A-4705-4A90-ADB6-B95D762B9D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B3062A-4705-4A90-ADB6-B95D762B9D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10B3062A-4705-4A90-ADB6-B95D762B9D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

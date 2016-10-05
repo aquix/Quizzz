@@ -16,8 +16,7 @@ namespace QuizzzClient.DataAccess.MongoDb
         private MongoRepository<Quizz> quizzRepo;
         private MongoRepository<User> userRepo;
 
-        public MongoContext() {
-            string connectionString = "mongodb://localhost:27017/quizzzDb";
+        public MongoContext(string connectionString) {
             var connection = new MongoUrlBuilder(connectionString);
 
             client = new MongoClient(connectionString);
@@ -58,6 +57,10 @@ namespace QuizzzClient.DataAccess.MongoDb
 
         public Task SaveChangesAsync() {
             throw new NotImplementedException();
+        }
+
+        public MongoClient GetClient() {
+            return client;
         }
     }
 }
