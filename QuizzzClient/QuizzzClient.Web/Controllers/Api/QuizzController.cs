@@ -84,6 +84,27 @@ namespace QuizzzClient.Web.Controllers.Api
             return Json(popularQuizzPreviews);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetQuizz(string id) {
+            var quizz = db.Quizzes.Find(id);
+            if (quizz == null) {
+                return StatusCode(500);
+            }
+
+            var viewModel = new QuizzViewModel {
+                Id = quizz.Id,
+                Name = quizz.Name,
+                Category = quizz.Category,
+                Questions = quizz.Questions.Select(q => new QuestionViewModel {
+                    Id = q.Id,
+                    QuestionBody = q.QuestionBody,
+                    Answers = q.Answers.Select(a => a.AnswerBody)
+                })
+            };
+
+            return Json(viewModel);
+        }
+
         #region Helpers
 
         private bool IsJson(string content) {

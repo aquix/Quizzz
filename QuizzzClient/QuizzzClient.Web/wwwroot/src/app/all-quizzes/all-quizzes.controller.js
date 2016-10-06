@@ -6,7 +6,7 @@ export default class AllQuizzesCtrl {
         const COUNT_OF_QUIZZES = 0;
         this.quizzes = [];
 
-        api.getPopular(COUNT_OF_QUIZZES)
+        api.getPreviews(COUNT_OF_QUIZZES)
             .then(res => {
                 this.quizzes = res.data;
             });

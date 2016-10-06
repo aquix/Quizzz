@@ -15,7 +15,11 @@ export default class ApiService {
         })
     }
 
-    getPopular(count) {
+    getPreviews(count) {
         return this.$http.get(`${this.apiPath}/previews/${count}`);
+    }
+
+    getQuizz(id) {
+        return this.$http.get(`${this.apiPath}/${id}`);
     }
 }
