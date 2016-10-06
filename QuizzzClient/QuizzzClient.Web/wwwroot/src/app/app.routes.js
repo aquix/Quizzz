@@ -4,10 +4,10 @@ let quizzTemplateUrl = require('ngtemplate!html!./quizz/quizz.html');
 let addQuizzTemplateUrl = require('ngtemplate!html!./add-quizz/add-quizz.html');
 let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
 
-/* @ngInject */
+/** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/addQuizz');
 
     $stateProvider
         .state('index', {

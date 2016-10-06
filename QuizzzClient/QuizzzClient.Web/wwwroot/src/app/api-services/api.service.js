@@ -1,0 +1,9 @@
+class Api {
+    constructor () {
+
+    }
+
+    addQuizz() {
+
+    }
+}
