@@ -43,6 +43,7 @@ function QuizzViewModel() {
     var self = this;
 
     self.author = ko.observable('');
+    self.name = ko.observable('');
     self.category = ko.observable('');
     self.questions = ko.observableArray([]);
 
@@ -104,6 +105,9 @@ function validate(mainViewModel) {
     }
     if (quizz.category() === '') {
         addError('Category field is required');
+    }
+    if (quizz.name() === '') {
+        addError('Name is required');
     }
     if (quizz.questions().length === 0) {
         addError('Quizz must contain at least one question');
