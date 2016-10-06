@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h2 class="text-center">All quizzes</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Count of questions</th>
+                    <th>Attempts/passes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="quizz in ctrl.quizzes"
+                    ng-click="ctrl.openQuizz(quizz.id)"
+                    class="quizz-preview">
+
+                    <td>{{ quizz.name }}</td>
+                    <td>{{ quizz.category }}</td>
+                    <td>{{ quizz.countOfQuestions }}</td>
+                    <td>{{ quizz.passesCount }}/{{ quizz.attemptsCount }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a ui-sref="addQuizz" class="btn btn-primary">Add quizz</a>
+    </div>
+</div>

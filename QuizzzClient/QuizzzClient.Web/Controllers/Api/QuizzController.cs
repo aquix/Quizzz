@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using QuizzzClient.Entities;
 using System.Linq;
 using System.Xml.Linq;
+using QuizzzClient.Web.Models.ApiViewModels;
+using System.Collections.Generic;
 
 namespace QuizzzClient.Web.Controllers.Api
 {
@@ -34,17 +36,17 @@ namespace QuizzzClient.Web.Controllers.Api
             if (IsJson(fileContent)) {
                 try {
                     quizz = JsonConvert.DeserializeObject<Quizz>(fileContent);
-                    db.Quizzes.Add(quizz);
+                    AddQuizzToDb(quizz);
                 } catch (JsonException) {
                     return StatusCode(500);
                 }
-                
+
             } else if (IsXml(fileContent)) {
                 try {
                     var doc = new XDocument(fileContent);
                     string jsonText = JsonConvert.SerializeXNode(doc);
                     quizz = JsonConvert.DeserializeObject<Quizz>(fileContent);
-                    db.Quizzes.Add(quizz);
+                    AddQuizzToDb(quizz);
                 } catch (JsonException) {
                     return StatusCode(500);
                 }
@@ -55,6 +57,34 @@ namespace QuizzzClient.Web.Controllers.Api
             Debug.Write("created");
             return Created("api/quizz", 0);
         }
+
+        [HttpGet("previews/{count}")]
+        public IActionResult GetPreviews(int count) {
+            var popularQuizzesStats = db.QuizzesStats.GetAll()
+                .OrderByDescending(s => s.AttemptsCount)
+                .AsQueryable();
+            
+            if (count != 0) {
+                popularQuizzesStats = popularQuizzesStats.Take(count);
+            }
+
+            var popularQuizzPreviews = new List<QuizzPreviewViewModel>(popularQuizzesStats.Count());
+            foreach (var stats in popularQuizzesStats) {
+                var quizz = db.Quizzes.Find(stats.Id);
+                popularQuizzPreviews.Add(new QuizzPreviewViewModel {
+                    Id = stats.Id,
+                    AttemptsCount = stats.AttemptsCount,
+                    PassesCount = stats.PassesCount,
+                    Name = quizz.Name,
+                    Category = quizz.Category,
+                    CountOfQuestions = quizz.Questions.Count()
+                });
+            }
+
+            return Json(popularQuizzPreviews);
+        }
+
+        #region Helpers
 
         private bool IsJson(string content) {
             if (content.First() == '{') {
@@ -71,5 +101,16 @@ namespace QuizzzClient.Web.Controllers.Api
 
             return false;
         }
+
+        private void AddQuizzToDb(Quizz quizz) {
+            db.Quizzes.Add(quizz);
+            db.QuizzesStats.Add(new QuizzStats {
+                Id = quizz.Id,
+                AttemptsCount = 0,
+                PassesCount = 0
+            });
+        }
+
+        #endregion
     }
 }

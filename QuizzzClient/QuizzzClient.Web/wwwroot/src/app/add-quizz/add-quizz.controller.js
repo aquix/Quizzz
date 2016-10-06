@@ -1,4 +1,5 @@
 export default class AddQuizzCtrl {
+    /** @ngInject */
     constructor (api) {
         this.api = api;
 

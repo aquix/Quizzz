@@ -1,8 +1,9 @@
 export default class ApiService {
     /** @ngInject */
-    constructor (apiPath, Upload) {
+    constructor (apiPath, Upload, $http) {
         this.apiPath = apiPath;
         this.Upload = Upload;
+        this.$http = $http;
     }
 
     addQuizz(file) {
@@ -12,5 +13,9 @@ export default class ApiService {
                 file: file
             }
         })
+    }
+
+    getPopular(count) {
+        return this.$http.get(`${this.apiPath}/previews/${count}`);
     }
 }
