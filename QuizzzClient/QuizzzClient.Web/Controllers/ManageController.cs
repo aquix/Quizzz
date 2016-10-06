@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using QuizzzClient.Web.Models;
 using QuizzzClient.Web.Models.ManageViewModels;
-using QuizzzClient.Web.Services;
 using QuizzzClient.Entities;
 
 namespace QuizzzClient.Web.Controllers
@@ -23,8 +18,6 @@ namespace QuizzzClient.Web.Controllers
         public ManageController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender,
-            ISmsSender smsSender,
             ILoggerFactory loggerFactory) {
 
             _userManager = userManager;

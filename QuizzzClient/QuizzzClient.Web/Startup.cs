@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.MongoDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QuizzzClient.Web.Services;
 using QuizzzClient.DataAccess.Interfaces;
 using QuizzzClient.DataAccess.MongoDb;
 using QuizzzClient.Entities;
+using Microsoft.AspNetCore.Identity;
+using DataAccess.MongoDb;
+using QuizzzClient.Web.Identity;
 
 namespace QuizzzClient.Web
 {
@@ -33,18 +35,15 @@ namespace QuizzzClient.Web
         public IConfigurationRoot Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) {
 
             services.AddIdentity<User, IdentityRole>();
+            services.AddTransient<IUserStore<User>, MongoUserStore>();
+            services.AddTransient<IRoleStore<IdentityRole>, MongoRoleStore>();
 
             services.AddMvc();
 
-            // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-
-
+            services.AddSingleton(f => new MongoDbFactory(Configuration.GetConnectionString("MongoDb")));
             services.AddTransient<IUnitOfWork, MongoContext>();
         }
 

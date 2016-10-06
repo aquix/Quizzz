@@ -4,6 +4,7 @@ using QuizzzClient.Entities;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using QuizzzClient.DataAccess.Interfaces;
+using DataAccess.MongoDb;
 
 namespace QuizzzClient.DataAccess.MongoDb
 {
@@ -15,17 +16,8 @@ namespace QuizzzClient.DataAccess.MongoDb
 
         private MongoRepository<Quizz> quizzRepo;
 
-        public MongoContext(string connectionString) {
-            var connection = new MongoUrlBuilder(connectionString);
-
-            client = new MongoClient(connectionString);
-            database = client.GetDatabase(connection.DatabaseName);
-            gridFS = new MongoGridFS(
-                new MongoServer(
-                    new MongoServerSettings { Server = connection.Server }),
-                connection.DatabaseName,
-                new MongoGridFSSettings()
-            );
+        public MongoContext(MongoDbFactory dbFactory) {
+            database = dbFactory.Database;
         }
 
         public IRepository<Quizz> Quizzes {
