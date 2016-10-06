@@ -1,10 +1,18 @@
 export default class AddQuizzCtrl {
-    constructor () {
+    constructor (api) {
+        this.api = api;
+
         this.file = null;
-        this.files = null;
+        this.status = '';
     }
 
-    submit() {
-        console.log('hello');
+    upload() {
+        this.api.addQuizz(this.file)
+            .then(() => {
+                this.status = 'success';
+            })
+            .catch(() => {
+                this.status = 'error';
+            });
     }
 }

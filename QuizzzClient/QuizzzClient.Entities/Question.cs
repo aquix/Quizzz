@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QuizzzClient.Entities
 {
-    public class Question : MongoEntity
+    public class Question
     {
         public string Id { get; set; }
         public string QuestionBody { get; set; }

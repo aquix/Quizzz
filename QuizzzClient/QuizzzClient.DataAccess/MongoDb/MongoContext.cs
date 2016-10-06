@@ -10,9 +10,7 @@ namespace QuizzzClient.DataAccess.MongoDb
 {
     public class MongoContext : IUnitOfWork
     {
-        MongoClient client;
         IMongoDatabase database;
-        MongoGridFS gridFS;
 
         private MongoRepository<Quizz> quizzRepo;
 
@@ -29,9 +27,7 @@ namespace QuizzzClient.DataAccess.MongoDb
             }
         }
 
-        public void Dispose() {
-            throw new NotImplementedException();
-        }
+        public void Dispose() { }
 
         public void SaveChanges() {
             throw new NotImplementedException();
@@ -41,8 +37,8 @@ namespace QuizzzClient.DataAccess.MongoDb
             throw new NotImplementedException();
         }
 
-        public MongoClient GetClient() {
-            return client;
+        public IMongoClient GetClient() {
+            return database.Client;
         }
     }
 }

@@ -1,1 +1,27 @@
-helfjasdjj
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 add-quizz-form text-center">
+        <h2>
+            Upload XML or JSON file with quizz here
+        </h2>
+        <div class=" form-inline">
+            <div class="form-group">
+                <div class="input-group">
+                    <label class="input-group-btn">
+                <span class="btn btn-primary">
+                    Browse… <input type="file" ngf-select ng-model="ctrl.file" name="file" accept="*"
+                    ngf-max-size="2MB" required style="display: none;">
+                </span>
+            </label>
+                    <input ng-model="ctrl.file.name" type="text" class="form-control" readonly="">
+                </div>
+            </div>
+            <div class="form-group">
+                <button ng-click="ctrl.upload()" class="btn btn-success">Submit</button>
+            </div>
+            <div class="form-group">
+                <span ng-if="ctrl.status === 'success'" class="glyphicon glyphicon-ok"></span>
+                <span ng-if="ctrl.status === 'error'" class="glyphicon glyphicon-remove"></span>
+            </div>
+        </div>
+    </div>
+</div>

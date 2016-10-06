@@ -7,7 +7,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.Web", "QuizzzC
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.Entities", "QuizzzClient.Entities\QuizzzClient.Entities.xproj", "{3BC97B00-CA52-4B4B-8830-9D911BB07B34}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.DataAccess", "DataAccess\QuizzzClient.DataAccess.xproj", "{10B3062A-4705-4A90-ADB6-B95D762B9D9D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.DataAccess", "QuizzzClient.DataAccess\QuizzzClient.DataAccess.xproj", "{10B3062A-4705-4A90-ADB6-B95D762B9D9D}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "QuizzzClient.Tests", "QuizzzClient.Tests\QuizzzClient.Tests.xproj", "{CBB15E83-ABBC-49CE-BD6B-E472918E40BE}"
 EndProject

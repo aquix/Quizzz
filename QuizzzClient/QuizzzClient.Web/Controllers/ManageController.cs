@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using QuizzzClient.Web.Models.ManageViewModels;
 using QuizzzClient.Entities;
+using QuizzzClient.Web.Identity.Entities;
 
 namespace QuizzzClient.Web.Controllers
 {

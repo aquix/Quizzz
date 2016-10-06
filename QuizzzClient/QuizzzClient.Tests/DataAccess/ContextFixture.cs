@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using DataAccess.MongoDb;
+using MongoDB.Driver;
 using QuizzzClient.DataAccess.MongoDb;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace QuizzzClient.Tests.DataAccess
 
         public ContextFixture() {
             dbName = "quizzzDbTest";
-            Context = new MongoContext($"mongodb://localhost:27017/{dbName}");
+            Context = new MongoContext(new MongoDbFactory($"mongodb://localhost:27017/{dbName}"));
             Context.GetClient().DropDatabase("quizzzDbTest");
         }
     }

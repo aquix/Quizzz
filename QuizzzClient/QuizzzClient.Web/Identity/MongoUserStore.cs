@@ -8,6 +8,7 @@ using System.Threading;
 using QuizzzClient.DataAccess.Interfaces;
 using MongoDB.Driver;
 using DataAccess.MongoDb;
+using QuizzzClient.Web.Identity.Entities;
 
 namespace QuizzzClient.Web.Identity
 {

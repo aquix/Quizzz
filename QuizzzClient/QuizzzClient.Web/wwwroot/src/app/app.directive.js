@@ -1,7 +1,7 @@
 let templateUrl = require('ngtemplate!html!./app.html');
 
 export default class App {
-    /* @ngInject */
+    /** @ngInject */
     constructor() {
         this.templateUrl = templateUrl;
     }

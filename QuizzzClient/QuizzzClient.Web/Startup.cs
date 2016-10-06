@@ -6,10 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using QuizzzClient.DataAccess.Interfaces;
 using QuizzzClient.DataAccess.MongoDb;
-using QuizzzClient.Entities;
 using Microsoft.AspNetCore.Identity;
 using DataAccess.MongoDb;
 using QuizzzClient.Web.Identity;
+using QuizzzClient.Web.Identity.Entities;
 
 namespace QuizzzClient.Web
 {
