@@ -40,13 +40,16 @@ export default class QuizCtrl {
             this.currentQuestion = this.quiz.questions[this.currentQuestionId - 1];
         } else {
             let sendData = {
-                id: this.quiz.id,
-                results: this.results
+                QuizId: this.quiz.id,
+                Answers: this.results
             };
 
             this.api.acceptQuiz(sendData)
                 .then(res => {
-                    this.$state.go('quizResults');
+                    console.log(res.data);
+                    this.$state.go('quizResults', {
+                        result: res.data
+                    });
                 })
         }
     }

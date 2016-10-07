@@ -1,8 +1,8 @@
 export default class QuizResultsCtrl {
     constructor($stateParams) {
-        this.success = true;
-        this.allQuestionsCount = 10;
-        this.passedQuestionsCount = 10;
-        this.percent = 100;
+        this.success = $stateParams.result.success;
+        this.allQuestionsCount = $stateParams.result.allQuestionsCount;
+        this.passedQuestionsCount = $stateParams.result.passedQuestionsCount;
+        this.percent = this.passedQuestionsCount * 100 / this.allQuestionsCount;
     }
 }

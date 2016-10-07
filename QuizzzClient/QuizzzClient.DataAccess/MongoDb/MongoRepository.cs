@@ -35,7 +35,7 @@ namespace QuizzzClient.DataAccess.MongoDb
 
         public async Task<T> FindAsync(object id) {
             var searchResult = await collection
-                .FindAsync(Builders<T>.Filter.Eq("_id", id.ToString()));
+                .FindAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id.ToString())));
             return searchResult.FirstOrDefault();
         }
 
@@ -48,7 +48,7 @@ namespace QuizzzClient.DataAccess.MongoDb
         }
 
         public void Update(T item) {
-            collection.ReplaceOne(Builders<T>.Filter.Eq("_id", item.Id.ToString()), item);
+            collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(item.Id)), item);
         }
 
         public IQueryable<T> Where(Func<T, bool> predicate) {

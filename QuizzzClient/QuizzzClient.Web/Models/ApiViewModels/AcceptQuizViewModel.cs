@@ -10,7 +10,7 @@ namespace QuizzzClient.Web.Models.ApiViewModels
 {
     public class AcceptQuizViewModel
     {
-        public string QuizzId { get; set; }
-        public IEnumerable<IEnumerable<string>> Answers { get; set; }
+        public string QuizId { get; set; }
+        public IEnumerable<IEnumerable<int>> Answers { get; set; }
     }
 }

@@ -33,7 +33,10 @@ export default function ($stateProvider, $urlRouterProvider) {
         .state('quizResults', {
             url: '/results',
             templateUrl: resultsTemplateUrl,
-            controller: 'QuizResultsCtrl as ctrl'
+            controller: 'QuizResultsCtrl as ctrl',
+            params: {
+                result: {}
+            }
         });
 
 }

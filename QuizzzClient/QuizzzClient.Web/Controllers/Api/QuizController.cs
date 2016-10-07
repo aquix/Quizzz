@@ -10,9 +10,11 @@ using System.Linq;
 using System.Xml.Linq;
 using QuizzzClient.Web.Models.ApiViewModels;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QuizzzClient.Web.Controllers.Api
 {
+    [Authorize]
     [Route("api/quiz")]
     public class QuizController : Controller
     {
@@ -106,9 +108,50 @@ namespace QuizzzClient.Web.Controllers.Api
         }
 
         [HttpPost("accept")]
-        public IActionResult AcceptQuiz(AcceptQuizViewModel data) {
+        public IActionResult AcceptQuiz([FromBody]AcceptQuizViewModel data) {
             if (data != null) {
-                return Json("good");
+                var quiz = db.Quizzes.Find(data.QuizId);
+
+                var correctQuestionsCount = 0;
+                for (int i = 0; i < quiz.Questions.Count(); i++) {
+                    var question = quiz.Questions.ElementAt(i);
+                    var isQuestionCorrect = true;
+
+                    for (int j = 0; j < question.Answers.Count(); j++) {
+                        var answer = question.Answers.ElementAt(j);
+                        if (answer.isCorrect && !data.Answers.ElementAt(i).Contains(j) ||
+                            !answer.isCorrect && data.Answers.ElementAt(i).Contains(j)) {
+
+                            isQuestionCorrect = false;
+                        }
+                    }
+
+                    if (isQuestionCorrect) {
+                        correctQuestionsCount++;
+                    }
+                }
+
+                // Save stats in db and return result
+
+                var quizStats = db.QuizzesStats.Find(quiz.Id);
+                quizStats.AttemptsCount++;
+
+                var isQuizPassed = isTestPassed(correctQuestionsCount, quiz.Questions.Count());
+
+                if (isQuizPassed) {
+                    quizStats.PassesCount++;
+                }
+
+                db.QuizzesStats.Update(quizStats);
+
+                var result = new AcceptQuizResultViewModel {
+                    Id = quiz.Id,
+                    AllQuestionsCount = quiz.Questions.Count(),
+                    PassedQuestionsCount = correctQuestionsCount,
+                    Success = isQuizPassed
+                };
+
+                return Json(result);
             } else {
                 return StatusCode(500);
             }
@@ -139,6 +182,16 @@ namespace QuizzzClient.Web.Controllers.Api
                 AttemptsCount = 0,
                 PassesCount = 0
             });
+        }
+
+        private bool isTestPassed(int passedQuestionsCount, int allQuestionsCount) {
+            const double LIMIT = 0.5;
+
+            if ((double)passedQuestionsCount / allQuestionsCount > LIMIT) {
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
