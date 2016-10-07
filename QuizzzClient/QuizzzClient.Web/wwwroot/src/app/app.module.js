@@ -5,6 +5,7 @@ import AddQuizzCtrl from './add-quizz/add-quizz.controller';
 import AllQuizzesCtrl from './all-quizzes/all-quizzes.controller';
 import QuizzCtrl from './quizz/quizz.controller';
 import StatsCtrl from './stats/stats.controller';
+import QuizzResultsCtrl from './quizz-results/quizz-results.controller';
 
 angular.module('app', [ 'ui.router', 'ngFileUpload' ]);
 
@@ -16,4 +17,5 @@ angular.module('app')
     .controller('AddQuizzCtrl', AddQuizzCtrl)
     .controller('AllQuizzesCtrl', AllQuizzesCtrl)
     .controller('QuizzCtrl', QuizzCtrl)
-    .controller('StatsCtrl', StatsCtrl);
+    .controller('StatsCtrl', StatsCtrl)
+    .controller('QuizzResultsCtrl', QuizzResultsCtrl);

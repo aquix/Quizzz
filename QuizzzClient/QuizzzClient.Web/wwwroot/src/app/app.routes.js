@@ -2,6 +2,7 @@ let allQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/all-quizzes.h
 let quizzTemplateUrl = require('ngtemplate!html!./quizz/quizz.html');
 let addQuizzTemplateUrl = require('ngtemplate!html!./add-quizz/add-quizz.html');
 let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
+let resultsTemplateUrl = require('ngtemplate!html!./quizz-results/quizz-results.html');
 
 /** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
@@ -28,6 +29,11 @@ export default function ($stateProvider, $urlRouterProvider) {
             url: '/stats',
             templateUrl: statsTemplateUrl,
             controller: 'StatsCtrl as ctrl'
+        })
+        .state('quizzResults', {
+            url: '/results',
+            templateUrl: resultsTemplateUrl,
+            controller: 'QuizzResultsCtrl as ctrl'
         });
 
 }

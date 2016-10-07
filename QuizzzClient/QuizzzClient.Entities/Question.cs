@@ -8,7 +8,7 @@ namespace QuizzzClient.Entities
 {
     public class Question
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string QuestionBody { get; set; }
         public IEnumerable<Answer> Answers { get; set; }
     }

@@ -4,11 +4,9 @@
 
         <h4>{{ ctrl.currentQuestion.questionBody }}</h4>
         <div ng-repeat="answer in ctrl.currentQuestion.answers" class="form-group">
-            <input type="checkbox" name="" value=""><label>{{ answer }}</label>
+            <label><input type="checkbox" ng-model="answer.isChecked" name="" value=""> {{ answer.answerBody }}</label>
         </div>
 
         <button ng-click="ctrl.nextQuestion()" type="button" class="btn btn-primary">Next</button>
-
-        <a ui-sref="addQuizz" class="btn btn-primary">Add quizz</a>
     </div>
 </div>

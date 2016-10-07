@@ -7,7 +7,7 @@ namespace QuizzzClient.Web.Models.ApiViewModels
 {
     public class QuestionViewModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string QuestionBody { get; set; }
         public IEnumerable<string> Answers { get; set; }
     }

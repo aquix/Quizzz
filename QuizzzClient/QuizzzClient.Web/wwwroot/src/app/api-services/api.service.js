@@ -22,4 +22,8 @@ export default class ApiService {
     getQuizz(id) {
         return this.$http.get(`${this.apiPath}/${id}`);
     }
+
+    acceptQuizz(data) {
+        return this.$http.post(`${this.apiPath}/accept`, data);
+    }
 }

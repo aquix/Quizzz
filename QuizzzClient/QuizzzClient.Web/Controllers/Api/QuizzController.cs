@@ -105,6 +105,15 @@ namespace QuizzzClient.Web.Controllers.Api
             return Json(viewModel);
         }
 
+        [HttpPost("accept")]
+        public IActionResult AcceptQuizz(AcceptQuizzViewModel data) {
+            if (data != null) {
+                return Json("good");
+            } else {
+                return StatusCode(500);
+            }
+        }
+
         #region Helpers
 
         private bool IsJson(string content) {
