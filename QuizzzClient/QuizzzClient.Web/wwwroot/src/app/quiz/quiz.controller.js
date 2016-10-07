@@ -1,20 +1,20 @@
-export default class QuizzCtrl {
+export default class QuizCtrl {
     /** @ngInject */
     constructor(api, $stateParams, $state) {
         this.api = api;
         this.$state = $state;
 
         this.id = $stateParams.id;
-        this.quizz = {};
+        this.quiz = {};
         this.results = [];
 
         this.currentQuestion = {};
         this.currentQuestionId = 0;
 
-        this.api.getQuizz(this.id)
+        this.api.getQuiz(this.id)
             .then(res => {
-                this.quizz = res.data;
-                this.quizz.questions = this.quizz.questions.map(q => {
+                this.quiz = res.data;
+                this.quiz.questions = this.quiz.questions.map(q => {
                     q.answers = q.answers.map(a => {
                         return {
                             answerBody: a,
@@ -36,17 +36,17 @@ export default class QuizzCtrl {
 
         this.currentQuestionId++;
 
-        if (this.currentQuestionId <= this.quizz.questions.length) {
-            this.currentQuestion = this.quizz.questions[this.currentQuestionId - 1];
+        if (this.currentQuestionId <= this.quiz.questions.length) {
+            this.currentQuestion = this.quiz.questions[this.currentQuestionId - 1];
         } else {
             let sendData = {
-                id: this.quizz.id,
+                id: this.quiz.id,
                 results: this.results
             };
 
-            this.api.acceptQuizz(sendData)
+            this.api.acceptQuiz(sendData)
                 .then(res => {
-                    this.$state.go('quizzResults');
+                    this.$state.go('quizResults');
                 })
         }
     }

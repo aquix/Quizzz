@@ -1,4 +1,4 @@
-export default class AddQuizzCtrl {
+export default class AddQuizCtrl {
     /** @ngInject */
     constructor (api) {
         this.api = api;
@@ -8,7 +8,7 @@ export default class AddQuizzCtrl {
     }
 
     upload() {
-        this.api.addQuizz(this.file)
+        this.api.addQuiz(this.file)
             .then(() => {
                 this.status = 'success';
             })

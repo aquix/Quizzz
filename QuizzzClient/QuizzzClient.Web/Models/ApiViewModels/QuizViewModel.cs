@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace QuizzzClient.Web.Models.ApiViewModels
 {
-    public class QuizzViewModel
+    public class QuizViewModel
     {
         public string Id { get; set; }
         public string Name { get; set; }

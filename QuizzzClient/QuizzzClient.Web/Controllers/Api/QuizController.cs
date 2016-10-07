@@ -13,19 +13,19 @@ using System.Collections.Generic;
 
 namespace QuizzzClient.Web.Controllers.Api
 {
-    [Route("api/quizz")]
-    public class QuizzController : Controller
+    [Route("api/quiz")]
+    public class QuizController : Controller
     {
         private IUnitOfWork db;
 
-        public QuizzController(IUnitOfWork db) {
+        public QuizController(IUnitOfWork db) {
             this.db = db;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(IFormFile file) {
             string fileContent;
-            Quizz quizz;
+            Quiz quiz;
 
             using (var stream = file.OpenReadStream()) {
                 var streamReader = new StreamReader(stream);
@@ -35,8 +35,8 @@ namespace QuizzzClient.Web.Controllers.Api
 
             if (IsJson(fileContent)) {
                 try {
-                    quizz = JsonConvert.DeserializeObject<Quizz>(fileContent);
-                    AddQuizzToDb(quizz);
+                    quiz = JsonConvert.DeserializeObject<Quiz>(fileContent);
+                    AddQuizToDb(quiz);
                 } catch (JsonException) {
                     return StatusCode(500);
                 }
@@ -45,8 +45,8 @@ namespace QuizzzClient.Web.Controllers.Api
                 try {
                     var doc = new XDocument(fileContent);
                     string jsonText = JsonConvert.SerializeXNode(doc);
-                    quizz = JsonConvert.DeserializeObject<Quizz>(fileContent);
-                    AddQuizzToDb(quizz);
+                    quiz = JsonConvert.DeserializeObject<Quiz>(fileContent);
+                    AddQuizToDb(quiz);
                 } catch (JsonException) {
                     return StatusCode(500);
                 }
@@ -55,47 +55,47 @@ namespace QuizzzClient.Web.Controllers.Api
             }
 
             Debug.Write("created");
-            return Created("api/quizz", 0);
+            return Created("api/quiz", 0);
         }
 
         [HttpGet("previews/{count}")]
         public IActionResult GetPreviews(int count) {
-            var popularQuizzesStats = db.QuizzesStats.GetAll()
+            var quizzesStats = db.QuizzesStats.GetAll()
                 .OrderByDescending(s => s.AttemptsCount)
                 .AsQueryable();
             
             if (count != 0) {
-                popularQuizzesStats = popularQuizzesStats.Take(count);
+                quizzesStats = quizzesStats.Take(count);
             }
 
-            var popularQuizzPreviews = new List<QuizzPreviewViewModel>(popularQuizzesStats.Count());
-            foreach (var stats in popularQuizzesStats) {
-                var quizz = db.Quizzes.Find(stats.Id);
-                popularQuizzPreviews.Add(new QuizzPreviewViewModel {
+            var quizPreviews = new List<QuizPreviewViewModel>(quizzesStats.Count());
+            foreach (var stats in quizzesStats) {
+                var quiz = db.Quizzes.Find(stats.Id);
+                quizPreviews.Add(new QuizPreviewViewModel {
                     Id = stats.Id,
                     AttemptsCount = stats.AttemptsCount,
                     PassesCount = stats.PassesCount,
-                    Name = quizz.Name,
-                    Category = quizz.Category,
-                    CountOfQuestions = quizz.Questions.Count()
+                    Name = quiz.Name,
+                    Category = quiz.Category,
+                    CountOfQuestions = quiz.Questions.Count()
                 });
             }
 
-            return Json(popularQuizzPreviews);
+            return Json(quizPreviews);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetQuizz(string id) {
-            var quizz = db.Quizzes.Find(id);
-            if (quizz == null) {
+        public IActionResult GetQuiz(string id) {
+            var quiz = db.Quizzes.Find(id);
+            if (quiz == null) {
                 return StatusCode(500);
             }
 
-            var viewModel = new QuizzViewModel {
-                Id = quizz.Id,
-                Name = quizz.Name,
-                Category = quizz.Category,
-                Questions = quizz.Questions.Select(q => new QuestionViewModel {
+            var viewModel = new QuizViewModel {
+                Id = quiz.Id,
+                Name = quiz.Name,
+                Category = quiz.Category,
+                Questions = quiz.Questions.Select(q => new QuestionViewModel {
                     Id = q.Id,
                     QuestionBody = q.QuestionBody,
                     Answers = q.Answers.Select(a => a.AnswerBody)
@@ -106,7 +106,7 @@ namespace QuizzzClient.Web.Controllers.Api
         }
 
         [HttpPost("accept")]
-        public IActionResult AcceptQuizz(AcceptQuizzViewModel data) {
+        public IActionResult AcceptQuiz(AcceptQuizViewModel data) {
             if (data != null) {
                 return Json("good");
             } else {
@@ -132,9 +132,9 @@ namespace QuizzzClient.Web.Controllers.Api
             return false;
         }
 
-        private void AddQuizzToDb(Quizz quizz) {
+        private void AddQuizToDb(Quiz quizz) {
             db.Quizzes.Add(quizz);
-            db.QuizzesStats.Add(new QuizzStats {
+            db.QuizzesStats.Add(new QuizStats {
                 Id = quizz.Id,
                 AttemptsCount = 0,
                 PassesCount = 0

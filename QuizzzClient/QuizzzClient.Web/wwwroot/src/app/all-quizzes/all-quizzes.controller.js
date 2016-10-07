@@ -12,7 +12,7 @@ export default class AllQuizzesCtrl {
             });
     }
 
-    openQuizz(id) {
-        this.$state.go('quizz', { id: id });
+    openQuiz(id) {
+        this.$state.go('quiz', { id: id });
     }
 }

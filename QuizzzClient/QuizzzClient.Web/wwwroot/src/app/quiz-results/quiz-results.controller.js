@@ -1,4 +1,4 @@
-export default class QuizzResultsCtrl {
+export default class QuizResultsCtrl {
     constructor($stateParams) {
         this.success = true;
         this.allQuestionsCount = 10;

@@ -8,25 +8,25 @@ using Quizzz.Util.Exceptions;
 namespace Quizzz.Controllers
 {
     [InvalidParameterExceptionFilter]
-    public class QuizzController : Controller
+    public class QuizController : Controller
     {
         [HttpPost]
         [Route("api/generate")]
-        public string GenerateQuizz([FromBody]NewQuizzViewModel newQuizzData) {
-            if (newQuizzData == null)
+        public string GenerateQuiz([FromBody]NewQuizViewModel newQuizData) {
+            if (newQuizData == null)
             {
                 throw new InvalidParameterException("Invalid post parameter");
             }
 
-            var jsonResult = JsonConvert.SerializeObject(newQuizzData.Quizz, new JsonSerializerSettings
+            var jsonResult = JsonConvert.SerializeObject(newQuizData.Quiz, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Formatting.Indented
             });
 
-            if (newQuizzData.OutputType == OutputType.Json) {
+            if (newQuizData.OutputType == OutputType.Json) {
                 return jsonResult;
-            } else if (newQuizzData.OutputType == OutputType.Xml) {
+            } else if (newQuizData.OutputType == OutputType.Xml) {
                 var xmlNode = JsonConvert.DeserializeXNode(jsonResult, "quizz");
                 return xmlNode.ToString();
             } else

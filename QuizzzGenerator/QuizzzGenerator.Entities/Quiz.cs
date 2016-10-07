@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Quizzz.Entities
 {
-    public class Quizz
+    public class Quiz
     {
         public string Author { get; set; }
         public string Name { get; set; }

@@ -27,25 +27,25 @@ namespace QuizzzClient.Tests.DataAccess
         public void AllowsToAddElements() {
             Seed();
 
-            var quizzResult1 = context.Quizzes.Where(q => q.Category == "Fun").FirstOrDefault();
+            var quizResult1 = context.Quizzes.Where(q => q.Category == "Fun").FirstOrDefault();
 
             Assert.Equal(2, context.Quizzes.GetAll().Count());
-            Assert.Equal("Who are you in Winx", quizzResult1.Name);
+            Assert.Equal("Who are you in Winx", quizResult1.Name);
         }
 
         [Fact]
         public void AllowToDeleteElements() {
             Seed();
 
-            var quizz = context.Quizzes.Where(q => q.Name == "What is your favorite food").FirstOrDefault();
-            context.Quizzes.Remove(quizz.Id);
+            var quiz = context.Quizzes.Where(q => q.Name == "What is your favorite food").FirstOrDefault();
+            context.Quizzes.Remove(quiz.Id);
 
             Assert.Null(context.Quizzes.Where(q => q.Name == "What is your favorite food").FirstOrDefault());
             Assert.Equal(1, context.Quizzes.GetAll().Count());
         }
 
         private void Seed() {
-            var quizz1 = new Quizz {
+            var quiz1 = new Quiz {
                 Category = "Other",
                 Name = "What is your favorite food",
                 Questions = new List<Question> {
@@ -60,7 +60,7 @@ namespace QuizzzClient.Tests.DataAccess
                 }
             };
 
-            var quizz2 = new Quizz {
+            var quiz2 = new Quiz {
                 Category = "Fun",
                 Name = "Who are you in Winx",
                 Questions = new List<Question> {
@@ -75,8 +75,8 @@ namespace QuizzzClient.Tests.DataAccess
                 }
             };
 
-            context.Quizzes.Add(quizz1);
-            context.Quizzes.Add(quizz2);
+            context.Quizzes.Add(quiz1);
+            context.Quizzes.Add(quiz2);
         }
     }
 }

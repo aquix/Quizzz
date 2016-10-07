@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QuizzzClient.Web.Models.ApiViewModels
 {
-    public class AcceptQuizzViewModel
+    public class AcceptQuizViewModel
     {
         public string QuizzId { get; set; }
         public IEnumerable<IEnumerable<string>> Answers { get; set; }

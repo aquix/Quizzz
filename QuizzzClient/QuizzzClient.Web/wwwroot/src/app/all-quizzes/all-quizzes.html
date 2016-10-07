@@ -12,18 +12,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="quizz in ctrl.quizzes"
-                    ng-click="ctrl.openQuizz(quizz.id)"
-                    class="quizz-preview">
+                <tr ng-repeat="quiz in ctrl.quizzes"
+                    ng-click="ctrl.openQuiz(quiz.id)"
+                    class="quiz-preview">
 
-                    <td>{{ quizz.name }}</td>
-                    <td>{{ quizz.category }}</td>
-                    <td>{{ quizz.countOfQuestions }}</td>
-                    <td>{{ quizz.passesCount }}/{{ quizz.attemptsCount }}</td>
+                    <td>{{ quiz.name }}</td>
+                    <td>{{ quiz.category }}</td>
+                    <td>{{ quiz.countOfQuestions }}</td>
+                    <td>{{ quiz.passesCount }}/{{ quiz.attemptsCount }}</td>
                 </tr>
             </tbody>
         </table>
 
-        <a ui-sref="addQuizz" class="btn btn-primary">Add quizz</a>
+        <a ui-sref="addQuiz" class="btn btn-primary">Add quiz</a>
     </div>
 </div>

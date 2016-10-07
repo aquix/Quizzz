@@ -1,17 +1,17 @@
 function MainViewModel() {
     var self = this;
 
-    self.quizz = ko.observable({});
+    self.quiz = ko.observable({});
     self.outputType = ko.observable('json');
 
-    self.generateQuizz = function () {
+    self.generateQuiz = function () {
         var isValid = validate(self);
         if (!isValid) {
             return;
         }
 
         // Assign ids
-        self.quizz().questions().forEach(function (question, i) {
+        self.quiz().questions().forEach(function (question, i) {
             question.id = i + 1;
         });
 
@@ -39,7 +39,7 @@ function MainViewModel() {
     self.errors = ko.observableArray();
 }
 
-function QuizzViewModel() {
+function QuizViewModel() {
     var self = this;
 
     self.author = ko.observable('');
@@ -88,7 +88,7 @@ function AnswerViewModel() {
 
 function init() {
     var mainViewModel = new MainViewModel();
-    mainViewModel.quizz(new QuizzViewModel());
+    mainViewModel.quiz(new QuizViewModel());
     ko.applyBindings(mainViewModel);
 }
 
@@ -98,21 +98,21 @@ function validate(mainViewModel) {
     }
 
     mainViewModel.errors([]);
-    var quizz = mainViewModel.quizz();
+    var quiz = mainViewModel.quiz();
 
-    if (quizz.author() === '') {
+    if (quiz.author() === '') {
         addError('Author field is required');
     }
-    if (quizz.category() === '') {
+    if (quiz.category() === '') {
         addError('Category field is required');
     }
-    if (quizz.name() === '') {
+    if (quiz.name() === '') {
         addError('Name is required');
     }
-    if (quizz.questions().length === 0) {
-        addError('Quizz must contain at least one question');
+    if (quiz.questions().length === 0) {
+        addError('Quiz must contain at least one question');
     }
-    quizz.questions().forEach(function (question, index) {
+    quiz.questions().forEach(function (question, index) {
         if (question.questionBody() === '') {
             addError('Question ' + (index + 1) + ': body is empty');
         }
@@ -132,7 +132,7 @@ function validate(mainViewModel) {
                 areAllAnswersCorrect = false;
             }
 
-            if (answer.answerString() === '') {
+            if (answer.answerBody() === '') {
                 isAnyAnswerEmpty = true;
             }
         });

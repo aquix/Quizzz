@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
-namespace QuizzzClient.Web.Models.ApiViewModels
+namespace QuizzzClient.Entities
 {
-    public class QuizzPreviewViewModel
+    public class Quiz : MongoEntity
     {
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
         public string Category { get; set; }
-        public int CountOfQuestions { get; set; }
-        public int AttemptsCount { get; set; }
-        public int PassesCount { get; set; }
+        public IEnumerable<Question> Questions { get; set; }
     }
 }

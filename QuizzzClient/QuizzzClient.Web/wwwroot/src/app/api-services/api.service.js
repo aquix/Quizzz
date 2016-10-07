@@ -6,7 +6,7 @@ export default class ApiService {
         this.$http = $http;
     }
 
-    addQuizz(file) {
+    addQuiz(file) {
         return this.Upload.upload({
             url: `${this.apiPath}`,
             data: {
@@ -19,11 +19,11 @@ export default class ApiService {
         return this.$http.get(`${this.apiPath}/previews/${count}`);
     }
 
-    getQuizz(id) {
+    getQuiz(id) {
         return this.$http.get(`${this.apiPath}/${id}`);
     }
 
-    acceptQuizz(data) {
+    acceptQuiz(data) {
         return this.$http.post(`${this.apiPath}/accept`, data);
     }
 }

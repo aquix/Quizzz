@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace QuizzzClient.Entities
 {
-    public class QuizzStats : MongoEntity
+    public class QuizStats : MongoEntity
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }

@@ -1,8 +1,8 @@
 let allQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/all-quizzes.html');
-let quizzTemplateUrl = require('ngtemplate!html!./quizz/quizz.html');
-let addQuizzTemplateUrl = require('ngtemplate!html!./add-quizz/add-quizz.html');
+let quizTemplateUrl = require('ngtemplate!html!./quiz/quiz.html');
+let addQuizTemplateUrl = require('ngtemplate!html!./add-quiz/add-quiz.html');
 let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
-let resultsTemplateUrl = require('ngtemplate!html!./quizz-results/quizz-results.html');
+let resultsTemplateUrl = require('ngtemplate!html!./quiz-results/quiz-results.html');
 
 /** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
@@ -15,25 +15,25 @@ export default function ($stateProvider, $urlRouterProvider) {
             templateUrl: allQuizzesTemplateUrl,
             controller: 'AllQuizzesCtrl as ctrl'
         })
-        .state('quizz', {
-            url: '/quizz/:id',
-            templateUrl: quizzTemplateUrl,
-            controller: 'QuizzCtrl as ctrl'
+        .state('quiz', {
+            url: '/quiz/:id',
+            templateUrl: quizTemplateUrl,
+            controller: 'QuizCtrl as ctrl'
         })
-        .state('addQuizz', {
-            url: '/addQuizz',
-            templateUrl: addQuizzTemplateUrl,
-            controller: 'AddQuizzCtrl as ctrl'
+        .state('addQuiz', {
+            url: '/addQuiz',
+            templateUrl: addQuizTemplateUrl,
+            controller: 'AddQuizCtrl as ctrl'
         })
         .state('stats', {
             url: '/stats',
             templateUrl: statsTemplateUrl,
             controller: 'StatsCtrl as ctrl'
         })
-        .state('quizzResults', {
+        .state('quizResults', {
             url: '/results',
             templateUrl: resultsTemplateUrl,
-            controller: 'QuizzResultsCtrl as ctrl'
+            controller: 'QuizResultsCtrl as ctrl'
         });
 
 }
