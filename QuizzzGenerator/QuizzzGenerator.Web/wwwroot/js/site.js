@@ -83,7 +83,7 @@ function AnswerViewModel() {
     var self = this;
 
     self.isCorrect = ko.observable(false);
-    self.answerString = ko.observable('');
+    self.answerBody = ko.observable('');
 }
 
 function init() {
