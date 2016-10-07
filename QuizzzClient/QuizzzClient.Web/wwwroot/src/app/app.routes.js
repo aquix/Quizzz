@@ -1,4 +1,5 @@
 let allQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/all-quizzes.html');
+let popularQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/popular-quizzes.html');
 let quizTemplateUrl = require('ngtemplate!html!./quiz/quiz.html');
 let addQuizTemplateUrl = require('ngtemplate!html!./add-quiz/add-quiz.html');
 let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
@@ -12,8 +13,19 @@ export default function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('index', {
             url: '/',
+            templateUrl: popularQuizzesTemplateUrl,
+            controller: 'AllQuizzesCtrl as ctrl',
+            params: {
+                count: 10
+            }
+        })
+        .state('all', {
+            url: '/all',
             templateUrl: allQuizzesTemplateUrl,
-            controller: 'AllQuizzesCtrl as ctrl'
+            controller: 'AllQuizzesCtrl as ctrl',
+            params: {
+                count: 0
+            }
         })
         .state('quiz', {
             url: '/quiz/:id',

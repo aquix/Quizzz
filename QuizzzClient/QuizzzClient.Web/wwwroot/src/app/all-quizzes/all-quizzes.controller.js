@@ -1,9 +1,9 @@
 export default class AllQuizzesCtrl {
     /** @ngInject */
-    constructor(api, $state) {
+    constructor(api, $state, $stateParams) {
         this.$state = $state;
 
-        const COUNT_OF_QUIZZES = 0;
+        const COUNT_OF_QUIZZES = $stateParams.count;
         this.quizzes = [];
 
         api.getPreviews(COUNT_OF_QUIZZES)

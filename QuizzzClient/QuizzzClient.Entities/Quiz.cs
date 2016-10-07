@@ -12,6 +12,7 @@ namespace QuizzzClient.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Author { get; set; }
         public string Category { get; set; }
         public IEnumerable<Question> Questions { get; set; }
     }

@@ -1,2 +1,1 @@
-﻿require('./assets/js/site.js');
-require('./assets/css/site.scss');
+﻿require('./assets/css/site.scss');

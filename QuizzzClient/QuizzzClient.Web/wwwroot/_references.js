@@ -18,6 +18,5 @@
 /// <reference path="src/app/quiz/quiz.controller.js" />
 /// <reference path="src/app/quiz-results/quiz-results.controller.js" />
 /// <reference path="src/app/stats/stats.controller.js" />
-/// <reference path="src/assets/js/site.js" />
 /// <reference path="src/index.js" />
 /// <reference path="src/site.js" />

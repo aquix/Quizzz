@@ -78,6 +78,7 @@ namespace QuizzzClient.Web.Controllers.Api
                     AttemptsCount = stats.AttemptsCount,
                     PassesCount = stats.PassesCount,
                     Name = quiz.Name,
+                    Author = quiz.Author,
                     Category = quiz.Category,
                     CountOfQuestions = quiz.Questions.Count()
                 });
@@ -93,9 +94,11 @@ namespace QuizzzClient.Web.Controllers.Api
                 return StatusCode(500);
             }
 
-            var viewModel = new QuizViewModel {
+            var quizViewModel
+                = new QuizViewModel {
                 Id = quiz.Id,
                 Name = quiz.Name,
+                Author = quiz.Author,
                 Category = quiz.Category,
                 Questions = quiz.Questions.Select(q => new QuestionViewModel {
                     Id = q.Id,
@@ -104,7 +107,7 @@ namespace QuizzzClient.Web.Controllers.Api
                 })
             };
 
-            return Json(viewModel);
+            return Json(quizViewModel);
         }
 
         [HttpPost("accept")]
