@@ -2,11 +2,11 @@
 
 module.exports = {
     entry: {
-        site: "./wwwroot/src/site.js",
-        index: "./wwwroot/src/index.js"
+        site: "./src/site.js",
+        index: "./src/index.js"
     },
     output: {
-        filename: "./wwwroot/dist/[name].js"
+        filename: "./dist/[name].js"
     },
     module: {
         loaders: [
