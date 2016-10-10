@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Identity.MongoDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QuizzzClient.DataAccess.Interfaces;
-using QuizzzClient.DataAccess.MongoDb;
 using Microsoft.AspNetCore.Identity;
-using DataAccess.MongoDb;
 using QuizzzClient.Web.Identity;
 using QuizzzClient.Web.Identity.Entities;
+using DataAccess.MongoDb;
+using QuizzzClient.DataAccess.Interfaces;
+using QuizzzClient.DataAccess.MongoDb;
+using QuizzzClient.Web.Services;
 
 namespace QuizzzClient.Web
 {
@@ -45,6 +46,7 @@ namespace QuizzzClient.Web
 
             services.AddSingleton(f => new MongoDbFactory(Configuration.GetConnectionString("MongoDb")));
             services.AddTransient<IUnitOfWork, MongoContext>();
+            services.AddTransient<QuizService, QuizService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

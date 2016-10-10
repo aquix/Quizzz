@@ -46,6 +46,7 @@
     },
     "Microsoft.AspNetCore.Identity.MongoDB": "1.0.2",
     "System.Xml.XmlDocument": "4.0.1",
+    "AutoMapper": "5.1.1",
     "QuizzzClient.DataAccess": "1.0.0-*"
   },
 

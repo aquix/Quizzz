@@ -52,9 +52,9 @@ namespace QuizzzClient.Tests.DataAccess
                     new Question {
                         QuestionBody = "Say smth",
                         Answers = new List<Answer> {
-                            new Answer { AnswerBody = "Meow", isCorrect = true },
-                            new Answer { AnswerBody = "Gav", isCorrect = false },
-                            new Answer { AnswerBody = "Blabla", isCorrect = false },
+                            new Answer { AnswerBody = "Meow", IsCorrect = true },
+                            new Answer { AnswerBody = "Gav", IsCorrect = false },
+                            new Answer { AnswerBody = "Blabla", IsCorrect = false },
                         }
                     }
                 }
@@ -67,9 +67,9 @@ namespace QuizzzClient.Tests.DataAccess
                     new Question {
                         QuestionBody = "Say smth",
                         Answers = new List<Answer> {
-                            new Answer { AnswerBody = "Meow", isCorrect = true },
-                            new Answer { AnswerBody = "Gav", isCorrect = true },
-                            new Answer { AnswerBody = "Blabla", isCorrect = false },
+                            new Answer { AnswerBody = "Meow", IsCorrect = true },
+                            new Answer { AnswerBody = "Gav", IsCorrect = true },
+                            new Answer { AnswerBody = "Blabla", IsCorrect = false },
                         }
                     }
                 }
