@@ -40,22 +40,29 @@ namespace QuizzzClient.Web.Services
             return true;
         }
 
-        public IEnumerable<QuizPreviewViewModel> GetPreviews(int count) {
-            var quizzesStats = db.QuizzesStats.GetAll()
-                .OrderByDescending(s => s.AttemptsCount)
+        public AllPreviewsViewModel GetPreviews(int count, string category) {
+            var quizzes = db.Quizzes.GetAll()
+                .OrderByDescending(q => q.AttemptsCount)
                 .AsQueryable();
 
-            if (count != 0) {
-                quizzesStats = quizzesStats.Take(count);
+            if (!string.IsNullOrEmpty(category)) {
+                var categoryId = db.Categories.Where(c => c.Name == category).FirstOrDefault()?.Id;
+
+                if (categoryId != null) {
+                    quizzes = quizzes.Where(q => q.CategoryId == categoryId);
+                }
             }
 
-            var quizPreviews = new List<QuizPreviewViewModel>(quizzesStats.Count());
-            foreach (var stats in quizzesStats) {
-                var quiz = db.Quizzes.Find(stats.Id);
+            if (count != 0) {
+                quizzes = quizzes.Take(count);
+            }
+
+            var quizPreviews = new List<QuizPreviewViewModel>(quizzes.Count());
+            foreach (var quiz in quizzes) {
                 quizPreviews.Add(new QuizPreviewViewModel {
-                    Id = stats.Id,
-                    AttemptsCount = stats.AttemptsCount,
-                    PassesCount = stats.PassesCount,
+                    Id = quiz.Id,
+                    AttemptsCount = quiz.AttemptsCount,
+                    PassesCount = quiz.PassesCount,
                     Name = quiz.Name,
                     Author = quiz.Author,
                     Category = db.Categories.Where(c => c.Id == quiz.CategoryId).FirstOrDefault()?.Name,
@@ -63,7 +70,10 @@ namespace QuizzzClient.Web.Services
                 });
             }
 
-            return quizPreviews;
+            return new AllPreviewsViewModel {
+                Quizzes = quizPreviews,
+                Categories = db.Categories.GetAll().Select(c => c.Name).ToList()
+            };
         }
 
         public AcceptQuizResultViewModel AcceptQuiz(AcceptQuizViewModel data) {
@@ -98,16 +108,15 @@ namespace QuizzzClient.Web.Services
             }
 
             // Save stats in db and return result
-            var quizStats = db.QuizzesStats.Find(quiz.Id);
-            quizStats.AttemptsCount++;
+            quiz.AttemptsCount++;
 
             var isQuizPassed = IsTestPassed(correctQuestionsCount, quiz.Questions.Count());
 
             if (isQuizPassed) {
-                quizStats.PassesCount++;
+                quiz.PassesCount++;
             }
 
-            db.QuizzesStats.Update(quizStats);
+            db.Quizzes.Update(quiz);
 
             return new AcceptQuizResultViewModel {
                 Id = quiz.Id,
@@ -181,11 +190,6 @@ namespace QuizzzClient.Web.Services
             quiz.CategoryId = categoryId;
 
             db.Quizzes.Add(quiz);
-            db.QuizzesStats.Add(new QuizStats {
-                Id = quiz.Id,
-                AttemptsCount = 0,
-                PassesCount = 0
-            });
         }
 
         private bool IsTestPassed(int passedQuestionsCount, int allQuestionsCount) {

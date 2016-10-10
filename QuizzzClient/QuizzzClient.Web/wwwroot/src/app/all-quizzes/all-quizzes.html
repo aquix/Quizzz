@@ -2,6 +2,13 @@
     <div class="col-sm-6 col-sm-offset-3">
         <h2 class="text-center">All quizzes</h2>
 
+        <div class="form-inline">
+            <label>Select category: </label>
+            <select ng-model="ctrl.selectedCategory" ng-click="ctrl.filterCategory()">
+                <option value="" selected="selected">All</option>
+                <option ng-repeat="category in ctrl.categories">{{ category }}</option>
+            </select>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>

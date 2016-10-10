@@ -49,8 +49,8 @@ namespace QuizzzClient.Web.Controllers.Api
         }
 
         [HttpGet("previews/{count}")]
-        public IActionResult GetPreviews(int count) {
-            var quizPreviews = quizService.GetPreviews(count);
+        public IActionResult GetPreviews(int count, string category) {
+            var quizPreviews = quizService.GetPreviews(count, category);
             return Json(quizPreviews);
         }
 

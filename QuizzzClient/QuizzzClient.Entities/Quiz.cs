@@ -15,5 +15,9 @@ namespace QuizzzClient.Entities
         public string Author { get; set; }
         public string CategoryId { get; set; }
         public IEnumerable<Question> Questions { get; set; }
+
+        // Stats
+        public int PassesCount { get; set; }
+        public int AttemptsCount { get; set; }
     }
 }

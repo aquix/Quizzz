@@ -15,8 +15,12 @@ export default class ApiService {
         })
     }
 
-    getPreviews(count) {
-        return this.$http.get(`${this.apiPath}/previews/${count}`);
+    getPreviews(count, category="") {
+        return this.$http.get(`${this.apiPath}/previews/${count}`, {
+            params: {
+                category: category
+            }
+        });
     }
 
     getQuiz(id) {
