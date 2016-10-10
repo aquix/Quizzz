@@ -8,6 +8,7 @@ namespace QuizzzClient.DataAccess.Interfaces
     {
         IRepository<Quiz> Quizzes { get; }
         IRepository<QuizStats> QuizzesStats { get; }
+        IRepository<Category> Categories { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();

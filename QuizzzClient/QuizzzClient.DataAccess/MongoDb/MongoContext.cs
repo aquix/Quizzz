@@ -14,6 +14,7 @@ namespace QuizzzClient.DataAccess.MongoDb
 
         private MongoRepository<Quiz> quizRepo;
         private MongoRepository<QuizStats> quizzesStatsRepo;
+        private MongoRepository<Category> categoryRepo;
 
         public MongoContext(MongoDbFactory dbFactory) {
             database = dbFactory.Database;
@@ -34,6 +35,15 @@ namespace QuizzzClient.DataAccess.MongoDb
                     quizzesStatsRepo = new MongoRepository<QuizStats>(database, "quizzesStats");
                 }
                 return quizzesStatsRepo;
+            }
+        }
+
+        public IRepository<Category> Categories {
+            get {
+                if (categoryRepo == null) {
+                    categoryRepo = new MongoRepository<Category>(database, "categories");
+                }
+                return categoryRepo;
             }
         }
 

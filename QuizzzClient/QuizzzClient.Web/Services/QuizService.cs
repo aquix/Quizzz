@@ -19,17 +19,17 @@ namespace QuizzzClient.Web.Services
         }
 
         public bool AddQuiz(string data) {
-            Quiz quiz;
+            QuizData quizData;
 
             try {
                 if (IsJson(data)) {
-                    quiz = JsonConvert.DeserializeObject<Quiz>(data);
-                    AddQuizToDb(quiz);
+                    quizData = JsonConvert.DeserializeObject<QuizData>(data);
+                    AddQuizToDb(quizData);
                 } else if (IsXml(data)) {
                     var doc = new XDocument(data);
                     string jsonText = JsonConvert.SerializeXNode(doc);
-                    quiz = JsonConvert.DeserializeObject<Quiz>(data);
-                    AddQuizToDb(quiz);
+                    quizData = JsonConvert.DeserializeObject<QuizData>(data);
+                    AddQuizToDb(quizData);
                 } else {
                     return false;
                 }
@@ -58,7 +58,7 @@ namespace QuizzzClient.Web.Services
                     PassesCount = stats.PassesCount,
                     Name = quiz.Name,
                     Author = quiz.Author,
-                    Category = quiz.Category,
+                    Category = db.Categories.Where(c => c.Id == quiz.CategoryId).FirstOrDefault()?.Name,
                     CountOfQuestions = quiz.Questions.Count()
                 });
             }
@@ -127,7 +127,7 @@ namespace QuizzzClient.Web.Services
                 Id = quiz.Id,
                 Name = quiz.Name,
                 Author = quiz.Author,
-                Category = quiz.Category,
+                Category = db.Categories.Where(c => c.Id == quiz.CategoryId).FirstOrDefault()?.Name,
                 Questions = quiz.Questions.Select(q => new QuestionViewModel {
                     Id = q.Id,
                     QuestionBody = q.QuestionBody,
@@ -156,10 +156,33 @@ namespace QuizzzClient.Web.Services
             return false;
         }
 
-        private void AddQuizToDb(Quiz quizz) {
-            db.Quizzes.Add(quizz);
+        private void AddQuizToDb(QuizData quizData) {
+            Quiz quiz = new Quiz {
+                Author = quizData.Author,
+                Name = quizData.Name,
+                Questions = quizData.Questions
+            };
+             
+            var categoryName = quizData.Category;
+            var existingCategory = db.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+
+            var categoryId = "";
+
+            if (existingCategory == null) {
+                var newCategory = new Category {
+                    Name = categoryName
+                };
+                db.Categories.Add(newCategory);
+                categoryId = newCategory.Id;
+            } else {
+                categoryId = existingCategory.Id;
+            }
+
+            quiz.CategoryId = categoryId;
+
+            db.Quizzes.Add(quiz);
             db.QuizzesStats.Add(new QuizStats {
-                Id = quizz.Id,
+                Id = quiz.Id,
                 AttemptsCount = 0,
                 PassesCount = 0
             });
