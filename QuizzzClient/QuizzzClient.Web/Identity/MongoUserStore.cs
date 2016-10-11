@@ -9,6 +9,7 @@ using QuizzzClient.DataAccess.Interfaces;
 using MongoDB.Driver;
 using DataAccess.MongoDb;
 using QuizzzClient.Web.Identity.Entities;
+using MongoDB.Bson;
 
 namespace QuizzzClient.Web.Identity
 {
@@ -94,7 +95,12 @@ namespace QuizzzClient.Web.Identity
         }
 
         public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken) {
-            return Task.FromResult(IdentityResult.Success);
+            try {
+                users.ReplaceOne(Builders<User>.Filter.Eq("_id", ObjectId.Parse(user.Id)), user);
+                return Task.FromResult(IdentityResult.Success);
+            } catch {
+                return Task.FromResult(IdentityResult.Failed());
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using QuizzzClient.DataAccess.Interfaces;
 using QuizzzClient.Entities;
+using QuizzzClient.Web.Identity.Entities;
 using QuizzzClient.Web.Models.ApiViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,10 +14,12 @@ namespace QuizzzClient.Web.Services
 {
     public class QuizService
     {
+        private readonly UserManager<User> userManager;
         private IUnitOfWork db;
 
-        public QuizService(IUnitOfWork db) {
+        public QuizService(IUnitOfWork db, UserManager<User> userManager) {
             this.db = db;
+            this.userManager = userManager;
         }
 
         public bool AddQuiz(string data) {
@@ -76,7 +80,11 @@ namespace QuizzzClient.Web.Services
             };
         }
 
-        public AcceptQuizResultViewModel AcceptQuiz(AcceptQuizViewModel data) {
+        internal object AcceptQuiz(AcceptQuizViewModel data, object p) {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AcceptQuizResultViewModel> AcceptQuiz(AcceptQuizViewModel data, string userName) {
             Quiz quiz;
             try {
                 quiz = db.Quizzes.Find(data.QuizId);
@@ -117,6 +125,33 @@ namespace QuizzzClient.Web.Services
             }
 
             db.Quizzes.Update(quiz);
+
+            // Update user stats
+            var user = await userManager.FindByNameAsync(userName);
+            var currentQuizResult = user.BestResults?.Where(r => r.QuizId == quiz.Id).FirstOrDefault();
+
+            if (currentQuizResult == null) {
+                var newQuizResult = new QuizBestResult {
+                    QuizId = quiz.Id,
+                    Name = quiz.Name,
+                    QuestionsCount = quiz.Questions.Count(),
+                    PassedQuestionsCount = correctQuestionsCount,
+                    IsPassed = isQuizPassed
+                };
+
+                if (user.BestResults == null) {
+                    user.BestResults = new List<QuizBestResult>();
+                }
+
+                user.BestResults.Add(newQuizResult);
+            } else {
+                if (correctQuestionsCount >= currentQuizResult.PassedQuestionsCount) {
+                    currentQuizResult.PassedQuestionsCount = correctQuestionsCount;
+                    currentQuizResult.IsPassed = isQuizPassed;
+                }
+            }
+
+            await userManager.UpdateAsync(user);
 
             return new AcceptQuizResultViewModel {
                 Id = quiz.Id,

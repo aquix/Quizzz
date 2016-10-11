@@ -42,6 +42,7 @@
 /// <reference path="src/app/quiz/quiz.controller.js" />
 /// <reference path="src/app/quiz-results/quiz-results.controller.js" />
 /// <reference path="src/app/stats/stats.controller.js" />
+/// <reference path="src/app/utils/storage.service.js" />
 /// <reference path="src/index.js" />
 /// <reference path="src/site.js" />
 /// <reference path="webpack.config.js" />

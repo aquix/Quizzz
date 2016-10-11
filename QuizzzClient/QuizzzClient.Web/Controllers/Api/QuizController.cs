@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
 using System.IO;
 using QuizzzClient.DataAccess.Interfaces;
@@ -21,6 +22,7 @@ namespace QuizzzClient.Web.Controllers.Api
         public QuizController(IUnitOfWork db, QuizService quizService) {
             this.db = db;
             this.quizService = quizService;
+            
         }
 
         [HttpPost]
@@ -61,12 +63,13 @@ namespace QuizzzClient.Web.Controllers.Api
         }
 
         [HttpPost("accept")]
-        public IActionResult AcceptQuiz([FromBody]AcceptQuizViewModel data) {
+        public async Task<IActionResult> AcceptQuiz([FromBody]AcceptQuizViewModel data) {
             if (data == null) {
                 StatusCode(500);
             }
 
-            var result = quizService.AcceptQuiz(data);
+            Debug.Write(User.Identity.Name);
+            var result = await quizService.AcceptQuiz(data, User.Identity.Name);
 
             if (result == null) {
                 StatusCode(500);
