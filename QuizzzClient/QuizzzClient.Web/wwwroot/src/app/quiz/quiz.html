@@ -2,7 +2,7 @@
     <div class="col-sm-6 col-sm-offset-3">
         <h2 class="text-center">All quizzes</h2>
 
-        <h4>{{ ctrl.currentQuestion.questionBody }}</h4>
+        <h4><span>{{ ctrl.currentQuestionId }}</span>. {{ ctrl.currentQuestion.questionBody }}</h4>
         <div ng-repeat="answer in ctrl.currentQuestion.answers" class="form-group">
             <label><input type="checkbox" ng-model="answer.isChecked" name="" value=""> {{ answer.answerBody }}</label>
         </div>

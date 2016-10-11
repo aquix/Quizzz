@@ -1,8 +1,9 @@
 export default class QuizCtrl {
     /** @ngInject */
-    constructor(api, $stateParams, $state) {
+    constructor(api, $stateParams, $state, storageService) {
         this.api = api;
         this.$state = $state;
+        this._storageService = storageService;
 
         this.id = $stateParams.id;
         this.quiz = {};
@@ -10,6 +11,25 @@ export default class QuizCtrl {
 
         this.currentQuestion = {};
         this.currentQuestionId = 0;
+
+        storageService.removeAllSources();
+        storageService.addSource(() => {
+            return {
+                id: this.id,
+                results: this.results,
+                currentQuestionId: this.currentQuestionId,
+                currentQuestion: this.currentQuestion
+            }
+        });
+
+        let isNewQuiz = (!storageService.settingsSaved || storageService.savedData.id !== this.id);
+
+        if (!isNewQuiz) {
+            this.id = storageService.savedData.id,
+            this.results = storageService.savedData.results,
+            this.currentQuestion = storageService.savedData.currentQuestion,
+            this.currentQuestionId = storageService.savedData.currentQuestionId
+        }
 
         this.api.getQuiz(this.id)
             .then(res => {
@@ -23,10 +43,15 @@ export default class QuizCtrl {
                     });
                     return q;
                 })
-                this.nextQuestion();
+
+                if (isNewQuiz) {
+                    this.nextQuestion();
+                }
 
             })
             .catch(() => console.log('error'));
+
+
     }
 
     nextQuestion() {
@@ -46,7 +71,7 @@ export default class QuizCtrl {
 
             this.api.acceptQuiz(sendData)
                 .then(res => {
-                    console.log(res.data);
+                    this._storageService.removeAllSources();
                     this.$state.go('quizResults', {
                         result: res.data
                     });
