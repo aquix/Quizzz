@@ -1,32 +1,13 @@
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <h2 class="text-center">Popular quizzes</h2>
+<md-list flex>
+	<md-list-item class="md-3-line" ng-repeat="quiz in ctrl.quizzes" ng-click="ctrl.openQuiz(quiz.id)">
+		<div class="md-list-item-text" layout="column">
+			<h3>{{ quiz.name }}</h3>
+			<h4>{{ quiz.category }}</h4>
+			<p>Author: {{ quiz.author }}</p>
+		</div>
+        <md-divider></md-divider>
+	</md-list-item>
+</md-list>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Author</th>
-                    <th>Count of questions</th>
-                    <th>Attempts/passes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="quiz in ctrl.quizzes"
-                    ng-click="ctrl.openQuiz(quiz.id)"
-                    class="quiz-preview">
-
-                    <td>{{ quiz.name }}</td>
-                    <td>{{ quiz.category }}</td>
-                    <td>{{ quiz.author }}</td>
-                    <td>{{ quiz.countOfQuestions }}</td>
-                    <td>{{ quiz.passesCount }}/{{ quiz.attemptsCount }}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <a ui-sref="addQuiz" class="btn btn-primary">Add quiz</a>
-        <a ui-sref="all" class="btn btn-primary">Show all</a>
-    </div>
-</div>
+<!--<td>{{ quiz.countOfQuestions }}</td>
+    <td>{{ quiz.passesCount }}/{{ quiz.attemptsCount }}</td>-->
