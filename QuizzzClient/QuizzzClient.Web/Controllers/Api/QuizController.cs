@@ -9,6 +9,9 @@ using System.Linq;
 using QuizzzClient.Web.Models.ApiViewModels;
 using Microsoft.AspNetCore.Authorization;
 using QuizzzClient.Web.Services;
+using System.Collections;
+using QuizzzClient.Entities;
+using System.Collections.Generic;
 
 namespace QuizzzClient.Web.Controllers.Api
 {
@@ -76,6 +79,12 @@ namespace QuizzzClient.Web.Controllers.Api
             }
 
             return Json(result);
+        }
+
+        [HttpGet("stats")]
+        public async Task<IEnumerable<QuizBestResult>> GetUserStats() {
+            var userName = User.Identity.Name;
+            return await quizService.GetUserStats(userName);
         }
     }
 }

@@ -1,5 +1,13 @@
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
         <h2 class="text-center">Stats</h2>
+
+        <div ng-repeat="result in ctrl.results">
+            {{result.name}}
+            {{result.isPassed}}
+            {{result.questionsCount}}
+            {{result.passedQuestionsCount}}
+            <a ui-sref="quiz({ id: result.quizId })">Try again</a>
+        </div>
     </div>
 </div>

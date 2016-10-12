@@ -30,4 +30,8 @@ export default class ApiService {
     acceptQuiz(data) {
         return this.$http.post(`${this.apiPath}/accept`, data);
     }
+
+    getStats() {
+        return this.$http.get(`${this.apiPath}/stats`);
+    }
 }

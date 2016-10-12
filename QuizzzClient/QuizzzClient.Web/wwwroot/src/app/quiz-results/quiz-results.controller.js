@@ -1,4 +1,5 @@
 export default class QuizResultsCtrl {
+    /** @ngInject */
     constructor($stateParams) {
         this.success = $stateParams.result.success;
         this.allQuestionsCount = $stateParams.result.allQuestionsCount;

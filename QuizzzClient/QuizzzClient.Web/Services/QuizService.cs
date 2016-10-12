@@ -182,6 +182,11 @@ namespace QuizzzClient.Web.Services
             return quizViewModel;
         }
 
+        public async Task<IEnumerable<QuizBestResult>> GetUserStats(string userName) {
+            var user = await userManager.FindByNameAsync(userName);
+            return user.BestResults;
+        }
+
         #region Helpers
 
         private bool IsJson(string content) {
