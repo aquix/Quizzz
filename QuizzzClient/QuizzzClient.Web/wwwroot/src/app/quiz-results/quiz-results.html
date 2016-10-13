@@ -1,14 +1,23 @@
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <h2 class="text-center">
-            <span ng-if="ctrl.success">Congratulations!</span>
-            <span ng-if="!ctrl.success">Sorry, try again</span>
-        </h2>
-
-        <h4>You've answered correctly {{ ctrl.passedQuestionsCount }} questions from {{ ctrl.allQuestionsCount }} ({{ ctrl.percent }}%)</h4>
-
-        <a ui-sref="index" class="btn btn-primary">Go home</a>
-        <a ui-sref="stats" class="btn btn-primary">Stats</a>
-
+<div layout="column" layout-align="center center">
+	<div ng-if="ctrl.success" layout="column" layout-align="center center">
+		<img src="/src/assets/images/success.png" alt="">
+		<h2>Congratulations!</h2>
+	</div>
+	<div ng-if="!ctrl.success" layout="column" layout-align="center center">
+		<img src="/src/assets/images/sad.png" alt="">
+		<h2>Sorry, try again</h2>
+	</div>
+    <div>
+        <h4>
+            You've answered correctly {{ ctrl.passedQuestionsCount }} questions from {{ ctrl.allQuestionsCount }} ({{ ctrl.percent }}%)
+		</h4>
     </div>
+	<div layout="row">
+		<a ui-sref="play.popular">
+			<md-button class="md-raised">Go home</md-button>
+		</a>
+		<a ui-sref="stats">
+			<md-button class="md-raised">Show stats</md-button>
+		</a>
+	</div>
 </div>
