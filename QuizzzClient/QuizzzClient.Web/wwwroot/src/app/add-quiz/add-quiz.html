@@ -1,27 +1,20 @@
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3 add-quiz-form text-center">
-        <h2>
-            Upload XML or JSON file with quiz here
-        </h2>
-        <div class=" form-inline">
-            <div class="form-group">
-                <div class="input-group">
-                    <label class="input-group-btn">
-                <span class="btn btn-primary">
-                    Browse… <input type="file" ngf-select ng-model="ctrl.file" name="file" accept="*"
-                    ngf-max-size="2MB" required style="display: none;">
-                </span>
-            </label>
-                    <input ng-model="ctrl.file.name" type="text" class="form-control" readonly="">
-                </div>
-            </div>
-            <div class="form-group">
-                <button ng-click="ctrl.upload()" class="btn btn-success">Submit</button>
-            </div>
-            <div class="form-group">
-                <span ng-if="ctrl.status === 'success'" class="glyphicon glyphicon-ok"></span>
-                <span ng-if="ctrl.status === 'error'" class="glyphicon glyphicon-remove"></span>
-            </div>
-        </div>
+<div>
+    <h1>Upload JSON or XML file here</h1>
+</div>
+<div layout="row">
+    <div>
+        <input class="ng-hide" ngf-select ng-model="ctrl.file" name="file"
+               id="input-file-id" accept="*" ngf-max-size="2MB" required />
+        <label for="input-file-id" class="md-button md-raised md-primary">Choose File</label>
+    </div>
+    <div>
+        <span>{{ ctrl.file.name }}</span>
+        <md-button ng-if="ctrl.file.name" ng-click="ctrl.upload()">Upload</md-button>
+        <span>
+            <i ng-if="ctrl.status === 'success'" class="fa fa-check" aria-hidden="true"></i>
+            <i ng-if="ctrl.status === 'error'" class="fa fa-times" aria-hidden="true"></i>
+        </span>
     </div>
 </div>
+
+

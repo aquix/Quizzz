@@ -1,13 +1,28 @@
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <h2 class="text-center">All quizzes</h2>
+<md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">
+                <span>{{ ctrl.currentQuestionId }}</span>. {{ ctrl.currentQuestion.questionBody }}
+			</span>
+		</md-card-title-text>
+	</md-card-title>
+	<md-card-content>
+		<div ng-repeat="answer in ctrl.currentQuestion.answers" class="quiz-options">
+			<md-checkbox ng-model="answer.isChecked" aria-label="Checkbox 1">
+				{{ answer.answerBody }}
+			</md-checkbox>
 
-        <h4><span>{{ ctrl.currentQuestionId }}</span>. {{ ctrl.currentQuestion.questionBody }}</h4>
-        <div ng-repeat="answer in ctrl.currentQuestion.answers" class="form-group">
-            <label><input type="checkbox" ng-model="answer.isChecked" name="" value=""> {{ answer.answerBody }}</label>
+		</div>
+	</md-card-content>
+	<md-card-actions layout="row" layout-align="end center">
+        <div class="quiz-btn">
+            <md-button ng-click="ctrl.nextQuestion()">Next</md-button>
+
         </div>
-
-        <button ng-click="ctrl.nextQuestion()" type="button" class="btn btn-primary">Next</button>
-        <a ui-sref="index" class="btn btn-danger">Back to quiz list</a>
-    </div>
-</div>
+        <div class="quiz-btn">
+            <a ui-sref="play.all">
+                <md-button aria-label="Back to quiz-list" class="md-raised md-warn"> Back to quiz list </md-button>
+            </a>
+        </div>
+	</md-card-actions>
+</md-card>

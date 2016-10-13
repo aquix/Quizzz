@@ -1,3 +1,8 @@
-﻿@import 'add-quiz';
+﻿.body-content {
+    margin-top: 50px;
+}
+
+@import 'add-quiz';
 @import 'quiz-list';
 @import 'sidebar';
+@import 'play-quiz';
