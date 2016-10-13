@@ -7,6 +7,7 @@ using QuizzzClient.Web.Models.ApiViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -211,6 +212,13 @@ namespace QuizzzClient.Web.Services
                 Name = quizData.Name,
                 Questions = quizData.Questions
             };
+
+            // Check if there is quiz with the same name
+            var namePattern = new Regex($@"{Regex.Escape(quiz.Name)}_\d*");
+            var quizWithSameName = db.Quizzes.Where(q => namePattern.IsMatch(q.Name)).ToList();
+            if (quizWithSameName.Count > 0) {
+                quiz.Name = $"{quiz.Name}_{quizWithSameName.Count}";
+            }
              
             var categoryName = quizData.Category;
             var existingCategory = db.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
