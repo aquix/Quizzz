@@ -1,13 +1,23 @@
-<md-list flex>
+<md-list>
 	<md-list-item class="md-3-line" ng-repeat="quiz in ctrl.quizzes" ng-click="ctrl.openQuiz(quiz.id)">
-		<div class="md-list-item-text" layout="column">
-			<h3>{{ quiz.name }}</h3>
-			<h4>{{ quiz.category }}</h4>
-			<p>Author: {{ quiz.author }}</p>
+		<div layout="row" style="width: 100%" layout-align="space-around center">
+			<div class="md-list-item-text" flex="50">
+				<h3>{{ quiz.name }}</h3>
+				<h4>{{ quiz.category }}</h4>
+				<p>Author: {{ quiz.author }}</p>
+			</div>
+			<div flex="30">
+				<h1><span class="success-attempts-count">{{ quiz.passesCount }}</span>/{{ quiz.attemptsCount }}</h1>
+			</div>
+			<div flex="20">
+				<md-button class="md-fab" aria-label="Questions">
+					<span class="md-subhead">{{ ctrl.getQuizTime(quiz.countOfQuestions) }} min</span>
+					<md-tooltip md-visible="demo.showTooltip" md-direction="{{demo.tipDirection}}">
+						{{ quiz.countOfQuestions }} questions
+					</md-tooltip>
+				</md-button>
+			</div>
 		</div>
-        <md-divider></md-divider>
+		<md-divider></md-divider>
 	</md-list-item>
 </md-list>
-
-<!--<td>{{ quiz.countOfQuestions }}</td>
-    <td>{{ quiz.passesCount }}/{{ quiz.attemptsCount }}</td>-->

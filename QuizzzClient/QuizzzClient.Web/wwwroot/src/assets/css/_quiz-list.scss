@@ -1,3 +1,16 @@
-.quiz-preview {
-    cursor: pointer;
+// .quiz-preview {
+//     cursor: pointer;
+// }
+
+.category-selector {
+    margin-left: 15px;
+
+    p {
+        margin-top: 28px;
+        margin-right: 20px;
+    }
+}
+
+.success-attempts-count {
+    color: #009688;
 }

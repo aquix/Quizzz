@@ -96,8 +96,9 @@ namespace QuizzzClient.Web.Controllers
 
         //
         // POST: /Account/LogOff
+
+        // TODO add antiforgery token
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff() {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
