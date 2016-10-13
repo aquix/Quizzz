@@ -9,10 +9,11 @@ let playQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/play.html');
 /** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/play/popular');
 
     $stateProvider
         .state('play', {
+            abstract: true,
             url: '/play',
             templateUrl: playQuizzesTemplateUrl,
             controller: 'PlayQuizzesCtrl as playCtrl',

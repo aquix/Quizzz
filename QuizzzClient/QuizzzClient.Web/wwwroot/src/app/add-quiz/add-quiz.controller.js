@@ -1,7 +1,9 @@
 export default class AddQuizCtrl {
     /** @ngInject */
-    constructor (api) {
+    constructor (api, route) {
         this.api = api;
+
+        route.currentPageTitle = 'Add quiz';
 
         this.file = null;
         this.status = '';

@@ -1,8 +1,8 @@
 export default class QuizCtrl {
     /** @ngInject */
-    constructor(api, $stateParams, $state, storageService) {
+    constructor(api, $stateParams, route, storageService) {
         this.api = api;
-        this.$state = $state;
+        this._route = route;
         this._storageService = storageService;
 
         this.id = $stateParams.id;
@@ -48,6 +48,7 @@ export default class QuizCtrl {
                     this.nextQuestion();
                 }
 
+                this._route.currentPageTitle = this.quiz.name;
             })
             .catch(() => console.log('error'));
 
@@ -72,7 +73,7 @@ export default class QuizCtrl {
             this.api.acceptQuiz(sendData)
                 .then(res => {
                     this._storageService.removeAllSources();
-                    this.$state.go('quizResults', {
+                    this._route.go('quizResults', {
                         result: res.data
                     });
                 })

@@ -1,4 +1,7 @@
-﻿@{
+﻿@using QuizzzClient.Web.Identity.Entities
+@inject UserManager<User> UserManager
+
+@{
     Layout = null;
 }
 
@@ -7,6 +10,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quizzz</title>
 
     <link rel="stylesheet" href="~/lib/angular-material/angular-material.css">
     <link rel="stylesheet" href="~/lib/components-font-awesome/css/font-awesome.css">
@@ -27,6 +31,11 @@
         <script src="~/lib/angular-aria/angular-aria.js"></script>
         <script src="~/lib/angular-messages/angular-messages.js"></script>
         <script src="~/lib/angular-material/angular-material.js"></script>
+
+        <script>
+            angular.module('app')
+                .value('userName', '@UserManager.GetUserName(User)');
+        </script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"

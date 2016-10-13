@@ -1,4 +1,8 @@
-﻿.body-content {
+﻿body {
+   min-width: 360px; /* suppose you want minimun width of 1000px */
+}
+
+.body-content {
     margin-top: 50px;
 }
 

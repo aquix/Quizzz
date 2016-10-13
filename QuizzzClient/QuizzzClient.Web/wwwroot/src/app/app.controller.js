@@ -1,8 +1,8 @@
 export default class AppCtrl {
-    constructor($mdSidenav) {
+    constructor($mdSidenav, userName, route) {
         this._$mdSidenav = $mdSidenav;
-
-        this.menuItems = ['Hello', 'World']
+        this.userName = userName;
+        this.route = route;
     }
 
     toggleRight() {

@@ -142,6 +142,7 @@
 /// <reference path="src/app/quiz-results/quiz-results.controller.js" />
 /// <reference path="src/app/sidenav/sidenav.controller.js" />
 /// <reference path="src/app/stats/stats.controller.js" />
+/// <reference path="src/app/utils/current-page.service.js" />
 /// <reference path="src/app/utils/storage.service.js" />
 /// <reference path="src/index.js" />
 /// <reference path="src/site.js" />

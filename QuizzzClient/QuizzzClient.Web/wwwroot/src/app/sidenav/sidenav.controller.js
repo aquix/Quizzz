@@ -1,14 +1,13 @@
 export default class SidenavCtrl {
-    constructor($mdSidenav, $state, $window, $http) {
+    constructor($mdSidenav, route, $http) {
         this._$mdSidenav = $mdSidenav;
-        this._$state = $state;
-        this._$window = $window;
+        this._route = route;
         this._$http = $http;
 
         this.links = [
             {
                 name: 'Play quizzes',
-                routeName: 'play'
+                routeName: 'play.popular'
             },
             {
                 name: 'My stats',
@@ -22,17 +21,17 @@ export default class SidenavCtrl {
     }
 
     click(link) {
-        this._$state.go(link.routeName);
+        this._route.go(link.routeName, link.name);
     }
 
     extLink(link) {
-        this._$window.location.href = link;
+        this._route.goExternal(link);
     }
 
     logout() {
         this._$http.post('/account/logoff')
             .then(() => {
-                this._$window.location.href = '/';
+                this._route.goExternal('/');
             })
     }
 

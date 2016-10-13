@@ -1,6 +1,7 @@
 export default class PlayQuizzesCtrl {
-    constructor($state) {
-        this._$state = $state;
+    constructor(route) {
+        this.route = route;
+        route.currentPageTitle = 'Play quizzes';
 
         this.currentRoute = 'popular';
         this.go('popular');
@@ -8,6 +9,6 @@ export default class PlayQuizzesCtrl {
 
     go(routeName) {
         this.currentRoute = routeName;
-        this._$state.go(`play.${routeName}`);
+        this.route.go(`play.${routeName}`, 'Play quizzes');
     }
 }

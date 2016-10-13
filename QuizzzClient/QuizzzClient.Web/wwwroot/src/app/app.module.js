@@ -2,6 +2,7 @@ import routeConfig from './app.routes';
 import App from './app.directive';
 import ApiService from './api-services/api.service';
 import StorageService from './utils/storage.service';
+import RouteService from './utils/route.service';
 import AddQuizCtrl from './add-quiz/add-quiz.controller';
 import AllQuizzesCtrl from './all-quizzes/all-quizzes.controller';
 import QuizCtrl from './quiz/quiz.controller';
@@ -16,9 +17,11 @@ angular.module('app', [ 'ui.router', 'ngFileUpload', 'LocalStorageModule', 'ngMa
 angular.module('app')
     .config(routeConfig)
     .constant('apiPath', '/api/quiz')
+    .value('userName', null)
     .directive('app', () => new App())
     .service('api', ApiService)
     .service('storageService', StorageService)
+    .service('route', RouteService)
     .controller('AddQuizCtrl', AddQuizCtrl)
     .controller('AllQuizzesCtrl', AllQuizzesCtrl)
     .controller('QuizCtrl', QuizCtrl)

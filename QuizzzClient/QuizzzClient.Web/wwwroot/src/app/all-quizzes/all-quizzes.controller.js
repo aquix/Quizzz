@@ -1,7 +1,7 @@
 export default class AllQuizzesCtrl {
     /** @ngInject */
-    constructor(api, $state, $stateParams) {
-        this.$state = $state;
+    constructor(api, route, $stateParams) {
+        this._route = route;
         this.api = api;
 
         const COUNT_OF_QUIZZES = $stateParams.count;
@@ -17,7 +17,7 @@ export default class AllQuizzesCtrl {
     }
 
     openQuiz(id) {
-        this.$state.go('quiz', { id: id });
+        this._route.go('quiz', id, { id: id });
     }
 
     filterCategory() {
