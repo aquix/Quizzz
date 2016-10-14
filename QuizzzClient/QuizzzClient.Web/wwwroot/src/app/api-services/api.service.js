@@ -15,10 +15,11 @@ export default class ApiService {
         })
     }
 
-    getPreviews(count, category="") {
+    getPreviews(count, startFromIndex=0, category="") {
         return this.$http.get(`${this.apiPath}/previews/${count}`, {
             params: {
-                category: category
+                category: category,
+                startFromIndex: startFromIndex
             }
         });
     }

@@ -21,7 +21,7 @@ export default class AllQuizzesCtrl {
     }
 
     filterCategory() {
-        this.api.getPreviews(0, this.selectedCategory)
+        this.api.getPreviews(0, 0, this.selectedCategory)
             .then(res => {
                 this.quizzes = res.data.quizzes;
                 this.categories = res.data.categories;

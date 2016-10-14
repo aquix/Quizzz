@@ -11,13 +11,11 @@
 			<md-checkbox ng-model="answer.isChecked" aria-label="Checkbox 1">
 				{{ answer.answerBody }}
 			</md-checkbox>
-
 		</div>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
         <div class="quiz-btn">
             <md-button ng-click="ctrl.nextQuestion()">Next</md-button>
-
         </div>
         <div class="quiz-btn">
             <a ui-sref="play.all">

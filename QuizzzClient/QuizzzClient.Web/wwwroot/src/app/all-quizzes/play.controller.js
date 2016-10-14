@@ -1,4 +1,5 @@
 export default class PlayQuizzesCtrl {
+    /** @ngInject */
     constructor(route) {
         this.route = route;
         route.currentPageTitle = 'Play quizzes';

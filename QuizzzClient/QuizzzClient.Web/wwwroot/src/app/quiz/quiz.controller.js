@@ -12,6 +12,7 @@ export default class QuizCtrl {
         this.currentQuestion = {};
         this.currentQuestionId = 0;
 
+        // Add source for saving quiz state
         storageService.removeAllSources();
         storageService.addSource(() => {
             return {
@@ -25,34 +26,10 @@ export default class QuizCtrl {
         let isNewQuiz = (!storageService.settingsSaved || storageService.savedData.id !== this.id);
 
         if (!isNewQuiz) {
-            this.id = storageService.savedData.id,
-            this.results = storageService.savedData.results,
-            this.currentQuestion = storageService.savedData.currentQuestion,
-            this.currentQuestionId = storageService.savedData.currentQuestionId
+            this._restoreData(storageService.savedData);
         }
 
-        this.api.getQuiz(this.id)
-            .then(res => {
-                this.quiz = res.data;
-                this.quiz.questions = this.quiz.questions.map(q => {
-                    q.answers = q.answers.map(a => {
-                        return {
-                            answerBody: a,
-                            isChecked: false
-                        };
-                    });
-                    return q;
-                })
-
-                if (isNewQuiz) {
-                    this.nextQuestion();
-                }
-
-                this._route.currentPageTitle = this.quiz.name;
-            })
-            .catch(() => console.log('error'));
-
-
+        this._startQuiz(isNewQuiz);
     }
 
     nextQuestion() {
@@ -73,11 +50,41 @@ export default class QuizCtrl {
             this.api.acceptQuiz(sendData)
                 .then(res => {
                     this._storageService.removeAllSources();
-                    this._route.go('quizResults', {
+                    this._route.go('quizResults', 'Results', {
                         result: res.data
                     });
                 })
         }
+    }
+
+    _startQuiz(isNewQuiz) {
+        this.api.getQuiz(this.id)
+            .then(res => {
+                this.quiz = res.data;
+                this.quiz.questions = this.quiz.questions.map(q => {
+                    q.answers = q.answers.map(a => {
+                        return {
+                            answerBody: a,
+                            isChecked: false
+                        };
+                    });
+                    return q;
+                })
+
+                if (isNewQuiz) {
+                    this.nextQuestion();
+                }
+
+                this._route.currentPageTitle = this.quiz.name;
+            })
+            .catch(() => console.log('error'));
+    }
+
+    _restoreData(savedData) {
+            this.id = savedData.id,
+            this.results = savedData.results,
+            this.currentQuestion = savedData.currentQuestion,
+            this.currentQuestionId = savedData.currentQuestionId
     }
 
     _saveQuestionAnswers() {

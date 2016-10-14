@@ -33,8 +33,6 @@ angular.module('app')
 angular.module('app')
     .run(function ($window, storageService) {
         window.onbeforeunload = function () {
-            console.log('close window');
             storageService.save();
-            // handle the exit event
         };
     });

@@ -1,4 +1,5 @@
 export default class RouteService {
+    /** @ngInject */
     constructor($state, $window) {
         this._$state = $state;
         this._$window = $window;
