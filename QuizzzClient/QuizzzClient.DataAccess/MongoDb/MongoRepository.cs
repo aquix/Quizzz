@@ -27,10 +27,14 @@ namespace QuizzzClient.DataAccess.MongoDb
         }
 
         public T Find(object id) {
-            var item = collection
-                .Find(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id.ToString())))
-                .FirstOrDefault();
-            return item;
+            try {
+                var item = collection
+                    .Find(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id.ToString())))
+                    .FirstOrDefault();
+                return item;
+            } catch {
+                return null;
+            }
         }
 
         public async Task<T> FindAsync(object id) {

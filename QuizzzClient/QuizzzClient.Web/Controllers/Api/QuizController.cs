@@ -33,7 +33,7 @@ namespace QuizzzClient.Web.Controllers.Api
             string fileContent;
 
             if (file == null) {
-                return StatusCode(500);
+                return StatusCode(400);
             }
 
             using (var stream = file.OpenReadStream()) {
@@ -46,36 +46,40 @@ namespace QuizzzClient.Web.Controllers.Api
             var result = quizService.AddQuiz(fileContent);
 
             if (result) {
-                Debug.Write("created");
                 return Created("api/quiz", 0);
             } else {
-                return StatusCode(500);
+                return StatusCode(400);
             }
         }
 
         [HttpGet("previews/{count}")]
-        public IActionResult GetPreviews(int count, string category) {
-            var quizPreviews = quizService.GetPreviews(count, category);
+        public IActionResult GetPreviews(int count=0, int startFromIndex=0, string category="") {
+            var quizPreviews = quizService.GetPreviews(count, startFromIndex, category);
             return Json(quizPreviews);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetQuiz(string id) {
             var quizViewModel = quizService.GetQuiz(id);
+
+            if (quizViewModel == null) {
+                return StatusCode(400);
+            }
+
             return Json(quizViewModel);
         }
 
         [HttpPost("accept")]
         public async Task<IActionResult> AcceptQuiz([FromBody]AcceptQuizViewModel data) {
             if (data == null) {
-                StatusCode(500);
+                return StatusCode(400);
             }
 
             Debug.Write(User.Identity.Name);
             var result = await quizService.AcceptQuiz(data, User.Identity.Name);
 
             if (result == null) {
-                StatusCode(500);
+                 return StatusCode(400);
             }
 
             return Json(result);

@@ -12,18 +12,18 @@ namespace QuizzzClient.Web.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger _logger;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly ILogger logger;
 
         public ManageController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILoggerFactory loggerFactory) {
 
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = loggerFactory.CreateLogger<ManageController>();
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            logger = loggerFactory.CreateLogger<ManageController>();
         }
 
         //
@@ -60,10 +60,10 @@ namespace QuizzzClient.Web.Controllers
             }
             var user = await GetCurrentUserAsync();
             if (user != null) {
-                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded) {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User changed their password successfully.");
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    logger.LogInformation(3, "User changed their password successfully.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
                 }
                 AddErrors(result);
@@ -93,7 +93,7 @@ namespace QuizzzClient.Web.Controllers
         }
 
         private Task<User> GetCurrentUserAsync() {
-            return _userManager.GetUserAsync(HttpContext.User);
+            return userManager.GetUserAsync(HttpContext.User);
         }
 
         #endregion

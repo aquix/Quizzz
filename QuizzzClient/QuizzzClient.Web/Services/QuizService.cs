@@ -27,10 +27,10 @@ namespace QuizzzClient.Web.Services
             QuizData quizData;
 
             try {
-                if (IsJson(data)) {
+                if (FileTypeService.IsJson(data)) {
                     quizData = JsonConvert.DeserializeObject<QuizData>(data);
                     AddQuizToDb(quizData);
-                } else if (IsXml(data)) {
+                } else if (FileTypeService.IsXml(data)) {
                     var doc = new XDocument(data);
                     string jsonText = JsonConvert.SerializeXNode(doc);
                     quizData = JsonConvert.DeserializeObject<QuizData>(data);
@@ -45,7 +45,7 @@ namespace QuizzzClient.Web.Services
             return true;
         }
 
-        public AllPreviewsViewModel GetPreviews(int count, string category) {
+        public AllPreviewsViewModel GetPreviews(int count=0, int startFromIndex=0, string category="") {
             var quizzes = db.Quizzes.GetAll()
                 .OrderByDescending(q => q.AttemptsCount)
                 .AsQueryable();
@@ -57,6 +57,8 @@ namespace QuizzzClient.Web.Services
                     quizzes = quizzes.Where(q => q.CategoryId == categoryId);
                 }
             }
+
+            quizzes = quizzes.Skip(startFromIndex);
 
             if (count != 0) {
                 quizzes = quizzes.Take(count);
@@ -81,10 +83,6 @@ namespace QuizzzClient.Web.Services
             };
         }
 
-        internal object AcceptQuiz(AcceptQuizViewModel data, object p) {
-            throw new NotImplementedException();
-        }
-
         public async Task<AcceptQuizResultViewModel> AcceptQuiz(AcceptQuizViewModel data, string userName) {
             Quiz quiz;
             try {
@@ -97,29 +95,12 @@ namespace QuizzzClient.Web.Services
                 return null;
             }
 
-            var correctQuestionsCount = 0;
-            for (int i = 0; i < quiz.Questions.Count(); i++) {
-                var question = quiz.Questions.ElementAt(i);
-                var isQuestionCorrect = true;
-
-                for (int j = 0; j < question.Answers.Count(); j++) {
-                    var answer = question.Answers.ElementAt(j);
-                    if (answer.IsCorrect && !data.Answers.ElementAt(i).Contains(j) ||
-                        !answer.IsCorrect && data.Answers.ElementAt(i).Contains(j)) {
-
-                        isQuestionCorrect = false;
-                    }
-                }
-
-                if (isQuestionCorrect) {
-                    correctQuestionsCount++;
-                }
-            }
+            var correctQuestionsCount = CalculateCorrectQuestions(quiz, data);
 
             // Save stats in db and return result
             quiz.AttemptsCount++;
 
-            var isQuizPassed = IsTestPassed(correctQuestionsCount, quiz.Questions.Count());
+            var isQuizPassed = IsQuizPassed(correctQuestionsCount, quiz.Questions.Count());
 
             if (isQuizPassed) {
                 quiz.PassesCount++;
@@ -129,30 +110,7 @@ namespace QuizzzClient.Web.Services
 
             // Update user stats
             var user = await userManager.FindByNameAsync(userName);
-            var currentQuizResult = user.BestResults?.Where(r => r.QuizId == quiz.Id).FirstOrDefault();
-
-            if (currentQuizResult == null) {
-                var newQuizResult = new QuizBestResult {
-                    QuizId = quiz.Id,
-                    Name = quiz.Name,
-                    QuestionsCount = quiz.Questions.Count(),
-                    PassedQuestionsCount = correctQuestionsCount,
-                    IsPassed = isQuizPassed
-                };
-
-                if (user.BestResults == null) {
-                    user.BestResults = new List<QuizBestResult>();
-                }
-
-                user.BestResults.Add(newQuizResult);
-            } else {
-                if (correctQuestionsCount >= currentQuizResult.PassedQuestionsCount) {
-                    currentQuizResult.PassedQuestionsCount = correctQuestionsCount;
-                    currentQuizResult.IsPassed = isQuizPassed;
-                }
-            }
-
-            await userManager.UpdateAsync(user);
+            await UpdateUserStats(quiz, correctQuestionsCount, isQuizPassed, user);
 
             return new AcceptQuizResultViewModel {
                 Id = quiz.Id,
@@ -190,22 +148,6 @@ namespace QuizzzClient.Web.Services
 
         #region Helpers
 
-        private bool IsJson(string content) {
-            if (content.First() == '{') {
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool IsXml(string content) {
-            if (content.First() == '<') {
-                return true;
-            }
-
-            return false;
-        }
-
         private void AddQuizToDb(QuizData quizData) {
             Quiz quiz = new Quiz {
                 Author = quizData.Author,
@@ -240,7 +182,58 @@ namespace QuizzzClient.Web.Services
             db.Quizzes.Add(quiz);
         }
 
-        private bool IsTestPassed(int passedQuestionsCount, int allQuestionsCount) {
+        private int CalculateCorrectQuestions(Quiz quiz, AcceptQuizViewModel userResults) {
+            var correctQuestionsCount = 0;
+
+            for (int i = 0; i < quiz.Questions.Count(); i++) {
+                var question = quiz.Questions.ElementAt(i);
+                var isQuestionCorrect = true;
+
+                for (int j = 0; j < question.Answers.Count(); j++) {
+                    var answer = question.Answers.ElementAt(j);
+                    if (answer.IsCorrect && !userResults.Answers.ElementAt(i).Contains(j) ||
+                        !answer.IsCorrect && userResults.Answers.ElementAt(i).Contains(j)) {
+
+                        isQuestionCorrect = false;
+                    }
+                }
+
+                if (isQuestionCorrect) {
+                    correctQuestionsCount++;
+                }
+            }
+
+            return correctQuestionsCount;
+        }
+
+        private async Task UpdateUserStats(Quiz quiz, int correctQuestionsCount, bool isQuizPassed, User user) {
+            var currentQuizResult = user.BestResults?.Where(r => r.QuizId == quiz.Id).FirstOrDefault();
+
+            if (currentQuizResult == null) {
+                var newQuizResult = new QuizBestResult {
+                    QuizId = quiz.Id,
+                    Name = quiz.Name,
+                    QuestionsCount = quiz.Questions.Count(),
+                    PassedQuestionsCount = correctQuestionsCount,
+                    IsPassed = isQuizPassed
+                };
+
+                if (user.BestResults == null) {
+                    user.BestResults = new List<QuizBestResult>();
+                }
+
+                user.BestResults.Add(newQuizResult);
+            } else {
+                if (correctQuestionsCount >= currentQuizResult.PassedQuestionsCount) {
+                    currentQuizResult.PassedQuestionsCount = correctQuestionsCount;
+                    currentQuizResult.IsPassed = isQuizPassed;
+                }
+            }
+
+            await userManager.UpdateAsync(user);
+        }
+
+        private bool IsQuizPassed(int passedQuestionsCount, int allQuestionsCount) {
             const double LIMIT = 0.5;
 
             if ((double)passedQuestionsCount / allQuestionsCount > LIMIT) {
