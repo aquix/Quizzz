@@ -5,6 +5,7 @@ let addQuizTemplateUrl = require('ngtemplate!html!./add-quiz/add-quiz.html');
 let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
 let resultsTemplateUrl = require('ngtemplate!html!./quiz-results/quiz-results.html');
 let playQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/play.html');
+let timeOverTemplateUrl = require('ngtemplate!html!./quiz/time-over.html');
 
 /** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
@@ -38,6 +39,14 @@ export default function ($stateProvider, $urlRouterProvider) {
             url: '/quiz/:id',
             templateUrl: quizTemplateUrl,
             controller: 'QuizCtrl as ctrl'
+        })
+        .state('timeover', {
+            url: '/timeover',
+            templateUrl: timeOverTemplateUrl,
+            controller: 'TimeOverCtrl as ctrl',
+            params: {
+                id: ""
+            }
         })
         .state('addQuiz', {
             url: '/addQuiz',

@@ -1,4 +1,5 @@
 "use strict";
+let webpack = require('webpack');
 
 module.exports = {
     entry: {
@@ -12,6 +13,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
+                exclude: /(node_modules|lib)/,
                 loader: "babel-loader"
             },
             {
@@ -20,5 +22,8 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en$/)
+    ],
     devtool: 'source-map'
 };
