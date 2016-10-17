@@ -11,6 +11,7 @@ namespace QuizzzClient.Web.Models.ApiViewModels
     public class AcceptQuizViewModel
     {
         public string QuizId { get; set; }
+        public int TakenTime { get; set; }
         public IEnumerable<IEnumerable<int>> Answers { get; set; }
     }
 }

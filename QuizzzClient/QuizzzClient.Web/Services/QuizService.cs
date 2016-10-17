@@ -73,7 +73,8 @@ namespace QuizzzClient.Web.Services
                     Name = quiz.Name,
                     Author = quiz.Author,
                     Category = db.Categories.Where(c => c.Id == quiz.CategoryId).FirstOrDefault()?.Name,
-                    CountOfQuestions = quiz.Questions.Count()
+                    CountOfQuestions = quiz.Questions.Count(),
+                    Time = quiz.Time
                 });
             }
 
@@ -110,13 +111,13 @@ namespace QuizzzClient.Web.Services
 
             // Update user stats
             var user = await userManager.FindByNameAsync(userName);
-            await UpdateUserStats(quiz, correctQuestionsCount, isQuizPassed, user);
+            await UpdateUserStats(quiz, correctQuestionsCount, isQuizPassed, data.TakenTime, user);
 
             return new AcceptQuizResultViewModel {
                 Id = quiz.Id,
                 AllQuestionsCount = quiz.Questions.Count(),
                 PassedQuestionsCount = correctQuestionsCount,
-                Success = isQuizPassed
+                Success = isQuizPassed                
             };
         }
 
@@ -131,6 +132,7 @@ namespace QuizzzClient.Web.Services
                 Name = quiz.Name,
                 Author = quiz.Author,
                 Category = db.Categories.Where(c => c.Id == quiz.CategoryId).FirstOrDefault()?.Name,
+                Time = quiz.Time,
                 Questions = quiz.Questions.Select(q => new QuestionViewModel {
                     Id = q.Id,
                     QuestionBody = q.QuestionBody,
@@ -152,6 +154,7 @@ namespace QuizzzClient.Web.Services
             Quiz quiz = new Quiz {
                 Author = quizData.Author,
                 Name = quizData.Name,
+                Time = quizData.Time,
                 Questions = quizData.Questions
             };
 
@@ -206,7 +209,7 @@ namespace QuizzzClient.Web.Services
             return correctQuestionsCount;
         }
 
-        private async Task UpdateUserStats(Quiz quiz, int correctQuestionsCount, bool isQuizPassed, User user) {
+        private async Task UpdateUserStats(Quiz quiz, int correctQuestionsCount, bool isQuizPassed, int takenTime, User user) {
             var currentQuizResult = user.BestResults?.Where(r => r.QuizId == quiz.Id).FirstOrDefault();
 
             if (currentQuizResult == null) {
@@ -215,7 +218,8 @@ namespace QuizzzClient.Web.Services
                     Name = quiz.Name,
                     QuestionsCount = quiz.Questions.Count(),
                     PassedQuestionsCount = correctQuestionsCount,
-                    IsPassed = isQuizPassed
+                    IsPassed = isQuizPassed,
+                    Time = takenTime
                 };
 
                 if (user.BestResults == null) {

@@ -28,9 +28,7 @@ export default class AllQuizzesCtrl {
             });
     }
 
-    getQuizTime(questionsCount) {
-        const TIME_PER_QUESTION = 20;
-        let seconds = questionsCount * TIME_PER_QUESTION;
+    getQuizTime(seconds) {
         let minutes = Math.ceil(seconds / 60);
         return minutes;
     }

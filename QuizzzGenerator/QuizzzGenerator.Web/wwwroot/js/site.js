@@ -45,6 +45,7 @@ function QuizViewModel() {
     self.author = ko.observable('');
     self.name = ko.observable('');
     self.category = ko.observable('');
+    self.time = ko.observable(0);
     self.questions = ko.observableArray([]);
 
     // init

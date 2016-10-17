@@ -11,6 +11,7 @@ namespace QuizzzClient.Web.Models.ApiViewModels
         public string Name { get; set; }
         public string Category { get; set; }
         public string Author { get; set; }
+        public int Time { get; set; }
         public int CountOfQuestions { get; set; }
         public int AttemptsCount { get; set; }
         public int PassesCount { get; set; }

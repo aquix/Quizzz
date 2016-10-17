@@ -30,6 +30,10 @@
                 <label for="Category">Category:</label>
                 <input data-bind="value: quiz().category" type="text" class="form-control" id="Category">
             </div>
+            <div class="form-group">
+                <label for="Time">Time (seconds):</label>
+                <input data-bind="value: quiz().time" type="number" class="form-control" id="Time">
+            </div>
             <div data-bind="foreach: quiz().questions">
                 <div class="question">
                     <div class="form-group">

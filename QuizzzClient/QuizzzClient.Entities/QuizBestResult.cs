@@ -9,6 +9,7 @@ namespace QuizzzClient.Entities
     {
         public string QuizId { get; set; }
         public string Name { get; set; }
+        public int Time { get; set; }
         public int QuestionsCount { get; set; }
         public int PassedQuestionsCount { get; set; }
         public bool IsPassed { get; set; }
