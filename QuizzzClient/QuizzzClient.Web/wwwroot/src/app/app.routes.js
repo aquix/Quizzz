@@ -6,6 +6,7 @@ let statsTemplateUrl = require('ngtemplate!html!./stats/stats.html');
 let resultsTemplateUrl = require('ngtemplate!html!./quiz-results/quiz-results.html');
 let playQuizzesTemplateUrl = require('ngtemplate!html!./all-quizzes/play.html');
 let timeOverTemplateUrl = require('ngtemplate!html!./quiz/time-over.html');
+let errorTemplateUrl = require('ngtemplate!html!./errors/error.html');
 
 /** @ngInject */
 export default function ($stateProvider, $urlRouterProvider) {
@@ -64,6 +65,14 @@ export default function ($stateProvider, $urlRouterProvider) {
             controller: 'QuizResultsCtrl as ctrl',
             params: {
                 result: {}
+            }
+        })
+        .state('error', {
+            url: '/error',
+            templateUrl: errorTemplateUrl,
+            controller: 'ErrorCtrl as ctrl',
+            params: {
+                message: ""
             }
         });
 

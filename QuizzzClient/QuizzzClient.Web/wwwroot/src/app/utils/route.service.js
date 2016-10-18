@@ -14,4 +14,10 @@ export default class RouteService {
     goExternal(link) {
         this._$window.location.href = link;
     }
+
+    error(message) {
+        this._$state.go('error', {
+            message: message
+        });
+    }
 }

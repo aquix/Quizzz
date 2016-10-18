@@ -63,7 +63,8 @@ namespace QuizzzClient.Web.Controllers.Api
             var quizViewModel = quizService.GetQuiz(id);
 
             if (quizViewModel == null) {
-                return StatusCode(400);
+                //return StatusCode(400);
+                return NotFound("fjdakja");
             }
 
             return Json(quizViewModel);

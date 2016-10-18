@@ -11,6 +11,7 @@ import QuizResultsCtrl from './quiz-results/quiz-results.controller';
 import SidenavCtrl from './sidenav/sidenav.controller';
 import PlayQuizzesCtrl from './all-quizzes/play.controller';
 import TimeOverCtrl from './quiz/time-over.controller';
+import ErrorCtrl from './errors/error.controller';
 
 
 angular.module('app', [ 'ui.router', 'ngFileUpload', 'LocalStorageModule', 'ngMaterial' ]);
@@ -30,7 +31,8 @@ angular.module('app')
     .controller('QuizResultsCtrl', QuizResultsCtrl)
     .controller('SidenavCtrl', SidenavCtrl)
     .controller('PlayQuizzesCtrl', PlayQuizzesCtrl)
-    .controller('TimeOverCtrl', TimeOverCtrl);
+    .controller('TimeOverCtrl', TimeOverCtrl)
+    .controller('ErrorCtrl', ErrorCtrl);
 
 angular.module('app')
     .run(function ($window, storageService) {

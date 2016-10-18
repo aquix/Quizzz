@@ -2,7 +2,7 @@ import moment from '../../../lib/moment/moment';
 
 export default class QuizCtrl {
     /** @ngInject */
-    constructor(api, $stateParams, route, storageService, $interval) {
+    constructor(api, $stateParams, route, storageService, $interval, $scope) {
         this.api = api;
         this._route = route;
         this._storageService = storageService;
@@ -14,6 +14,14 @@ export default class QuizCtrl {
         this.currentQuestion = {};
         this.currentQuestionId = 0;
         this.leftoverTime = moment.duration(0);
+        this.countdown = null;
+
+        // Undo countdown after exiting controller
+        $scope.$on('$destroy', () => {
+            if (this.countdown !== null) {
+                this._$interval.cancel(this.countdown);
+            }
+        });
 
         // Add source for saving quiz state
         this._initStorage();
@@ -75,10 +83,10 @@ export default class QuizCtrl {
             }
 
             // Start countdown
-            let countdown = this._$interval(() => {
+            this.countdown = this._$interval(() => {
                 this.leftoverTime.subtract(1, 's');
                 if (this.leftoverTime <= 0) {
-                    this._$interval.cancel(countdown);
+                    this._$interval.cancel(this.countdown);
                     this._timeOver();
                 }
             }, 1000)
@@ -86,7 +94,9 @@ export default class QuizCtrl {
             // Change toolbar heading
             this._route.currentPageTitle = this.quiz.name;
         })
-        .catch(() => console.log('error'));
+        .catch((res) => {
+            this._route.error('Quiz is not found');
+        });
     }
 
     _restoreData(savedData) {
