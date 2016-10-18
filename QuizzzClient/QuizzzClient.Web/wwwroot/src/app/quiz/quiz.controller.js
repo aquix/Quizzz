@@ -9,10 +9,9 @@ export default class QuizCtrl {
         this._$interval = $interval;
 
         this.id = $stateParams.id;
-        this.quiz = {};
+        this.quiestions = [];
         this.results = [];
         this.currentQuestion = {};
-        this.currentQuestionId = 0;
         this.leftoverTime = moment.duration(0);
         this.countdown = null;
 
@@ -34,18 +33,26 @@ export default class QuizCtrl {
         this._startQuiz(isNewQuiz);
     }
 
+    skipQuestion() {
+        if (!this.currentQuestion.wasSkipped) {
+            this.currentQuestion.wasSkipped = true;
+            this.questions.push(this.currentQuestion);
+            this.nextQuestion();
+        }
+    }
+
     nextQuestion() {
-        if (this.currentQuestionId != 0) {
+        if (this.currentQuestion.id) {
             this._saveQuestionAnswers();
         }
 
-        this.currentQuestionId++;
+        let nextQuestion = this.questions.shift();
 
-        if (this.currentQuestionId <= this.quiz.questions.length) {
-            this.currentQuestion = this.quiz.questions[this.currentQuestionId - 1];
+        if (nextQuestion) {
+            this.currentQuestion = nextQuestion;
         } else {
             let sendData = {
-                QuizId: this.quiz.id,
+                QuizId: this.id,
                 Answers: this.results
             };
 
@@ -68,8 +75,7 @@ export default class QuizCtrl {
 
     _startQuiz(isNewQuiz) {
         this.api.getQuiz(this.id).then(res => {
-            this.quiz = res.data;
-            this.quiz.questions = this.quiz.questions.map(q => {
+            this.questions = res.data.questions.map(q => {
                 q.answers = q.answers.map(a => {
                     return {
                         answerBody: a,
@@ -94,7 +100,7 @@ export default class QuizCtrl {
             }, 1000)
 
             // Change toolbar heading
-            this._route.currentPageTitle = this.quiz.name;
+            this._route.currentPageTitle = res.data.name;
         })
         .catch((res) => {
             this._route.error(res.data);
@@ -105,7 +111,6 @@ export default class QuizCtrl {
         this.id = savedData.id;
         this.results = savedData.results;
         this.currentQuestion = savedData.currentQuestion;
-        this.currentQuestionId = savedData.currentQuestionId;
         this.leftoverTime = moment.duration(savedData.leftoverTime, 's');
     }
 
@@ -126,7 +131,6 @@ export default class QuizCtrl {
             return {
                 id: this.id,
                 results: this.results,
-                currentQuestionId: this.currentQuestionId,
                 currentQuestion: this.currentQuestion,
                 leftoverTime: this.leftoverTime.asSeconds()
             }
@@ -135,7 +139,7 @@ export default class QuizCtrl {
 
     _timeOver() {
         this._route.go('timeover', 'Time is over', {
-            id: this.quiz.id
+            id: this.id
         });
         console.log('time over');
     }

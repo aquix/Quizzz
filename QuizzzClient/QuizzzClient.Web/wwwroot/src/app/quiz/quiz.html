@@ -6,7 +6,7 @@
 	<md-card-title>
 		<md-card-title-text>
 			<span class="md-headline">
-                <span>{{ ctrl.currentQuestionId }}</span>. {{ ctrl.currentQuestion.questionBody }}
+                <span>{{ ctrl.currentQuestion.id }}</span>. {{ ctrl.currentQuestion.questionBody }}
 			</span>
 		</md-card-title-text>
 	</md-card-title>
@@ -18,6 +18,9 @@
 		</div>
 	</md-card-content>
 	<md-card-actions layout="row" layout-align="end center">
+		<div ng-if="!ctrl.currentQuestion.wasSkipped" class="quiz-btn">
+            <md-button ng-click="ctrl.skipQuestion()">Skip</md-button>
+        </div>
         <div class="quiz-btn">
             <md-button ng-click="ctrl.nextQuestion()">Next</md-button>
         </div>
