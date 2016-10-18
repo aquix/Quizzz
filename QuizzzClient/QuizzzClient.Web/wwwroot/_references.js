@@ -458,6 +458,7 @@
 /// <reference path="src/app/app.directive.js" />
 /// <reference path="src/app/app.module.js" />
 /// <reference path="src/app/app.routes.js" />
+/// <reference path="src/app/errors/error.controller.js" />
 /// <reference path="src/app/quiz/quiz.controller.js" />
 /// <reference path="src/app/quiz/time-over.controller.js" />
 /// <reference path="src/app/quiz-results/quiz-results.controller.js" />

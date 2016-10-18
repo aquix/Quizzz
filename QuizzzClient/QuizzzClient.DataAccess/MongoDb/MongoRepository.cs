@@ -6,6 +6,7 @@ using MongoDB.Driver;
 using QuizzzClient.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver.Builders;
+using QuizzzClient.DataAccess.Exceptions;
 
 namespace QuizzzClient.DataAccess.MongoDb
 {
@@ -23,7 +24,11 @@ namespace QuizzzClient.DataAccess.MongoDb
         }
 
         public void Add(T item) {
-            collection.InsertOne(item);
+            try {
+                collection.InsertOne(item);
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
 
         public T Find(object id) {
@@ -33,33 +38,53 @@ namespace QuizzzClient.DataAccess.MongoDb
                     .FirstOrDefault();
                 return item;
             } catch {
-                return null;
+                throw new DatabaseConnectException();
             }
         }
 
         public async Task<T> FindAsync(object id) {
-            var searchResult = await collection
-                .FindAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id.ToString())));
-            return searchResult.FirstOrDefault();
+            try {
+                var searchResult = await collection
+                    .FindAsync(Builders<T>.Filter.Eq("_id", ObjectId.Parse(id.ToString())));
+                return searchResult.FirstOrDefault();
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
 
         public IQueryable<T> GetAll() {
-            return collection.AsQueryable();
+            try {
+                return collection.AsQueryable();
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
 
         public void Remove(object id) {
-            collection.DeleteOne<T>(item => item.Id == id.ToString());
+            try {
+                collection.DeleteOne<T>(item => item.Id == id.ToString());
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
 
         public void Update(T item) {
-            collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(item.Id)), item);
+            try {
+                collection.ReplaceOne(Builders<T>.Filter.Eq("_id", ObjectId.Parse(item.Id)), item);
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
 
         public IQueryable<T> Where(Func<T, bool> predicate) {
-            return collection
-                .AsQueryable()
-                .Where(predicate)
-                .AsQueryable();
+            try {
+                return collection
+                    .AsQueryable()
+                    .Where(predicate)
+                    .AsQueryable();
+            } catch {
+                throw new DatabaseConnectException();
+            }
         }
     }
 }

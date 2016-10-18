@@ -3,9 +3,10 @@ export default class StatsCtrl {
     constructor(api) {
         this.results = [];
 
-        api.getStats()
-            .then(res => {
-                this.results = res.data
-            });
+        api.getStats().then(res => {
+            this.results = res.data
+        }).catch(res => {
+            this._route.error(res.data);
+        });
     }
 }

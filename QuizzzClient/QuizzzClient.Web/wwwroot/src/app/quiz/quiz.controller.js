@@ -54,7 +54,9 @@ export default class QuizCtrl {
                 this._route.go('quizResults', 'Results', {
                     result: res.data
                 });
-            })
+            }).catch(res => {
+                this._route.error(res.data);
+            });
         }
     }
 
@@ -75,12 +77,12 @@ export default class QuizCtrl {
                     };
                 });
                 return q;
-            })
+            });
 
             if (isNewQuiz) {
                 this.leftoverTime = moment.duration(res.data.time, 's');
                 this.nextQuestion();
-            }
+            };
 
             // Start countdown
             this.countdown = this._$interval(() => {
@@ -95,7 +97,7 @@ export default class QuizCtrl {
             this._route.currentPageTitle = this.quiz.name;
         })
         .catch((res) => {
-            this._route.error('Quiz is not found');
+            this._route.error(res.data);
         });
     }
 

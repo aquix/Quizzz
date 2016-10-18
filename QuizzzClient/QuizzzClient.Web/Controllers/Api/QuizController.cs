@@ -12,6 +12,7 @@ using QuizzzClient.Web.Services;
 using System.Collections;
 using QuizzzClient.Entities;
 using System.Collections.Generic;
+using System;
 
 namespace QuizzzClient.Web.Controllers.Api
 {
@@ -33,7 +34,7 @@ namespace QuizzzClient.Web.Controllers.Api
             string fileContent;
 
             if (file == null) {
-                return StatusCode(400);
+                return StatusCode(400, "File not exists");
             }
 
             using (var stream = file.OpenReadStream()) {
@@ -43,47 +44,42 @@ namespace QuizzzClient.Web.Controllers.Api
                 }
             }
 
-            var result = quizService.AddQuiz(fileContent);
-
-            if (result) {
+            try {
+                quizService.AddQuiz(fileContent);
                 return Created("api/quiz", 0);
-            } else {
-                return StatusCode(400);
+            } catch (Exception e) {
+                return StatusCode(400, e.Message);
             }
         }
 
         [HttpGet("previews/{count}")]
         public IActionResult GetPreviews(int count=0, int startFromIndex=0, string category="") {
-            var quizPreviews = quizService.GetPreviews(count, startFromIndex, category);
-            return Json(quizPreviews);
+            try {
+                var quizPreviews = quizService.GetPreviews(count, startFromIndex, category);
+                return Json(quizPreviews);
+            } catch (Exception e) {
+                return StatusCode(400, e.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public IActionResult GetQuiz(string id) {
-            var quizViewModel = quizService.GetQuiz(id);
-
-            if (quizViewModel == null) {
-                //return StatusCode(400);
-                return NotFound("fjdakja");
+            try {
+                var quizViewModel = quizService.GetQuiz(id);
+                return Json(quizViewModel);
+            } catch (Exception e) {
+                return NotFound(e.Message);
             }
-
-            return Json(quizViewModel);
         }
 
         [HttpPost("accept")]
         public async Task<IActionResult> AcceptQuiz([FromBody]AcceptQuizViewModel data) {
-            if (data == null) {
-                return StatusCode(400);
+            try {
+                var result = await quizService.AcceptQuiz(data, User.Identity.Name);
+                return Json(result);
+            } catch (Exception e) {
+                return StatusCode(400, e.Message);
             }
-
-            Debug.Write(User.Identity.Name);
-            var result = await quizService.AcceptQuiz(data, User.Identity.Name);
-
-            if (result == null) {
-                 return StatusCode(400);
-            }
-
-            return Json(result);
         }
 
         [HttpGet("stats")]

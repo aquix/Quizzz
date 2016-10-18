@@ -29,10 +29,11 @@ export default class SidenavCtrl {
     }
 
     logout() {
-        this._$http.post('/account/logoff')
-            .then(() => {
-                this._route.goExternal('/');
-            })
+        this._$http.post('/account/logoff').then(() => {
+            this._route.goExternal('/');
+        }).catch(res => {
+            this._route.error(res.data);
+        });
     }
 
     close() {

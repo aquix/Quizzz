@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using QuizzzClient.DataAccess.Exceptions;
 using QuizzzClient.DataAccess.Interfaces;
 using QuizzzClient.Entities;
 using QuizzzClient.Web.Identity.Entities;
 using QuizzzClient.Web.Models.ApiViewModels;
+using QuizzzClient.Web.Utils.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace QuizzzClient.Web.Services
             this.userManager = userManager;
         }
 
-        public bool AddQuiz(string data) {
+        public void AddQuiz(string data) {
             QuizData quizData;
 
             try {
@@ -35,14 +37,12 @@ namespace QuizzzClient.Web.Services
                     string jsonText = JsonConvert.SerializeXNode(doc);
                     quizData = JsonConvert.DeserializeObject<QuizData>(data);
                     AddQuizToDb(quizData);
-                } else {
-                    return false;
                 }
-            } catch (JsonException) {
-                return false;
+            } catch (DatabaseConnectException) {
+                throw;
+            } catch (Exception) {
+                throw new InvalidInputFormatException(data);
             }
-
-            return true;
         }
 
         public AllPreviewsViewModel GetPreviews(int count=0, int startFromIndex=0, string category="") {
@@ -86,14 +86,10 @@ namespace QuizzzClient.Web.Services
 
         public async Task<AcceptQuizResultViewModel> AcceptQuiz(AcceptQuizViewModel data, string userName) {
             Quiz quiz;
-            try {
-                quiz = db.Quizzes.Find(data.QuizId);
-            } catch (Exception) {
-                return null;
-            }
+            quiz = db.Quizzes.Find(data.QuizId);
 
             if (quiz.Questions.Count() != data.Answers.Count()) {
-                return null;
+                throw new InvalidAcceptDataException();
             }
 
             var correctQuestionsCount = CalculateCorrectQuestions(quiz, data);
@@ -123,9 +119,6 @@ namespace QuizzzClient.Web.Services
 
         public QuizViewModel GetQuiz(string id) {
             var quiz = db.Quizzes.Find(id);
-            if (quiz == null) {
-                return null;
-            }
 
             var quizViewModel = new QuizViewModel {
                 Id = quiz.Id,
@@ -186,27 +179,31 @@ namespace QuizzzClient.Web.Services
         }
 
         private int CalculateCorrectQuestions(Quiz quiz, AcceptQuizViewModel userResults) {
-            var correctQuestionsCount = 0;
+            try {
+                var correctQuestionsCount = 0;
 
-            for (int i = 0; i < quiz.Questions.Count(); i++) {
-                var question = quiz.Questions.ElementAt(i);
-                var isQuestionCorrect = true;
+                for (int i = 0; i < quiz.Questions.Count(); i++) {
+                    var question = quiz.Questions.ElementAt(i);
+                    var isQuestionCorrect = true;
 
-                for (int j = 0; j < question.Answers.Count(); j++) {
-                    var answer = question.Answers.ElementAt(j);
-                    if (answer.IsCorrect && !userResults.Answers.ElementAt(i).Contains(j) ||
-                        !answer.IsCorrect && userResults.Answers.ElementAt(i).Contains(j)) {
+                    for (int j = 0; j < question.Answers.Count(); j++) {
+                        var answer = question.Answers.ElementAt(j);
+                        if (answer.IsCorrect && !userResults.Answers.ElementAt(i).Contains(j) ||
+                            !answer.IsCorrect && userResults.Answers.ElementAt(i).Contains(j)) {
 
-                        isQuestionCorrect = false;
+                            isQuestionCorrect = false;
+                        }
+                    }
+
+                    if (isQuestionCorrect) {
+                        correctQuestionsCount++;
                     }
                 }
 
-                if (isQuestionCorrect) {
-                    correctQuestionsCount++;
-                }
+                return correctQuestionsCount;
+            } catch {
+                throw new InvalidAcceptDataException();
             }
-
-            return correctQuestionsCount;
         }
 
         private async Task UpdateUserStats(Quiz quiz, int correctQuestionsCount, bool isQuizPassed, int takenTime, User user) {
