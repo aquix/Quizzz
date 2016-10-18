@@ -9,5 +9,6 @@ namespace QuizzzClient.Web.Models.ApiViewModels
     {
         public IEnumerable<QuizPreviewViewModel> Quizzes { get; set; }
         public IEnumerable<string> Categories { get; set; }
+        public int TotalPages { get; set; }
     }
 }

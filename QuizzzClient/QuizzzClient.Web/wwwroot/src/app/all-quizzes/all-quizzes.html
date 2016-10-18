@@ -34,3 +34,7 @@
 		<md-divider></md-divider>
 	</md-list-item>
 </md-list>
+<section layout="row" layout-padding="">
+	<cl-paging flex cl-pages="ctrl.totalPages" cl-steps="6" cl-page-changed="ctrl.loadFromServer()"
+		cl-align="center end" cl-current-page="ctrl.currentPage"></cl-paging>
+</section>

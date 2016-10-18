@@ -58,6 +58,8 @@ namespace QuizzzClient.Web.Services
                 }
             }
 
+            var totalPages = (int)Math.Ceiling((decimal)quizzes.Count() / count);
+
             quizzes = quizzes.Skip(startFromIndex);
 
             if (count != 0) {
@@ -80,7 +82,8 @@ namespace QuizzzClient.Web.Services
 
             return new AllPreviewsViewModel {
                 Quizzes = quizPreviews,
-                Categories = db.Categories.GetAll().Select(c => c.Name).ToList()
+                Categories = db.Categories.GetAll().Select(c => c.Name).ToList(),
+                TotalPages = totalPages
             };
         }
 

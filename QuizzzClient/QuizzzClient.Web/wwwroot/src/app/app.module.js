@@ -14,7 +14,7 @@ import TimeOverCtrl from './quiz/time-over.controller';
 import ErrorCtrl from './errors/error.controller';
 
 
-angular.module('app', [ 'ui.router', 'ngFileUpload', 'LocalStorageModule', 'ngMaterial' ]);
+angular.module('app', [ 'ui.router', 'ngFileUpload', 'LocalStorageModule', 'ngMaterial', 'cl.paging' ]);
 
 angular.module('app')
     .config(routeConfig)
